@@ -100,6 +100,9 @@ public class MyGraph extends AbstractGraph {
     public boolean containsVertes(Vertex v) {
         return setOfVertexs.contains(v);
     }
+    public boolean containsVertes(int number) {
+        return containsVertes(new Vertex(number));
+    }
 
     //zwraca ilość krawędzi kojarzonych z danym wierzchołkime
     @Override

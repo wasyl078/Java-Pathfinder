@@ -1,6 +1,8 @@
 package com.wasyl.NewGame.Framework;
 
+import com.wasyl.NewGame.Blocks.AbstractBlock;
 import com.wasyl.NewGame.Blocks.BlocksId;
+import com.wasyl.NewGame.Blocks.EnemyBlock;
 import com.wasyl.NewGame.Blocks.PlayerBlock;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
@@ -46,6 +48,8 @@ public class Game extends Application {
         scene.addEventHandler(KeyEvent.KEY_PRESSED, (key) -> {
             KeyCode e = key.getCode();
             if(e == KeyCode.ESCAPE) System.exit(0);
+
+            if(e == KeyCode.Z) calculateSSTF();
 
             if (ableToMove) {
                 switch (e) {
@@ -118,12 +122,15 @@ public class Game extends Application {
     }
 
     //settery i gettery
-    public int getPlayerLastAction() {
-        return playerLastAction;
-    }
-
     public void setPlayerLastAction(int playerLastAction) {
         this.playerLastAction = playerLastAction;
+    }
+
+    //Chwilowa metoda do wywołania oblcizenia sstf przez przeciwnika
+    private void calculateSSTF(){
+        for(AbstractBlock ab:handler.getBlocksList())
+            if(ab.getBlocksId() == BlocksId.EnemyBlock)
+                ((EnemyBlock)ab).calculateSSTF();
     }
 
 }

@@ -2,16 +2,15 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="43ddc036-e99c-4098-8c4e-ac3a5c713c8d" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/src/com/wasyl/NewGame/Framework/LevelMaker.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/com/wasyl/NewGame/graphPackage/Graph.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/com/wasyl/NewGame/Blocks/AbstractBlock.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/wasyl/NewGame/Blocks/AbstractBlock.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/com/wasyl/NewGame/Blocks/BackgroundBlock.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/wasyl/NewGame/Blocks/BackgroundBlock.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/com/wasyl/NewGame/Blocks/EnemyBlock.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/wasyl/NewGame/Blocks/EnemyBlock.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/com/wasyl/NewGame/Blocks/PlayerBlock.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/wasyl/NewGame/Blocks/PlayerBlock.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/com/wasyl/NewGame/Blocks/WallBlock.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/wasyl/NewGame/Blocks/WallBlock.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/com/wasyl/NewGame/Framework/Game.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/wasyl/NewGame/Framework/Game.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/com/wasyl/NewGame/Framework/Handler.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/wasyl/NewGame/Framework/Handler.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/com/wasyl/NewGame/Framework/LevelMaker.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/wasyl/NewGame/Framework/LevelMaker.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/com/wasyl/NewGame/graph/Edge.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/wasyl/NewGame/graph/Edge.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/com/wasyl/NewGame/graph/MyGraph.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/wasyl/NewGame/graph/MyGraph.java" afterDir="false" />
     </list>
     <ignored path="$PROJECT_DIR$/out/" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -42,28 +41,28 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/com/wasyl/NewGame/Framework/Game.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="454">
-              <caret line="103" column="31" selection-start-line="103" selection-start-column="31" selection-end-line="103" selection-end-column="31" />
+            <state relative-caret-position="470">
+              <caret line="132" column="33" selection-start-line="132" selection-start-column="33" selection-end-line="132" selection-end-column="33" />
               <folding>
                 <element signature="imports" expanded="true" />
-                <element signature="e#4426#4427#0" expanded="true" />
-                <element signature="e#4454#4455#0" expanded="true" />
-                <element signature="e#4518#4519#0" expanded="true" />
-                <element signature="e#4557#4558#0" expanded="true" />
-                <element signature="e#4618#4619#0" expanded="true" />
-                <element signature="e#4674#4675#0" expanded="true" />
               </folding>
             </state>
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/com/wasyl/NewGame/Blocks/WallBlock.java">
+      <file pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/src/com/wasyl/NewGame/Framework/Handler.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="150">
-              <caret line="10" column="53" selection-start-line="10" selection-start-column="53" selection-end-line="10" selection-end-column="53" />
+            <state relative-caret-position="244">
+              <caret line="26" column="39" selection-start-line="26" selection-start-column="39" selection-end-line="26" selection-end-column="39" />
               <folding>
                 <element signature="imports" expanded="true" />
+                <element signature="e#903#904#0" expanded="true" />
+                <element signature="e#933#934#0" expanded="true" />
+                <element signature="e#1239#1240#0" expanded="true" />
+                <element signature="e#1270#1271#0" expanded="true" />
+                <element signature="e#1319#1320#0" expanded="true" />
+                <element signature="e#1359#1360#0" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -72,36 +71,33 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/com/wasyl/NewGame/Blocks/AbstractBlock.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="244">
-              <caret line="65" column="35" lean-forward="true" selection-start-line="65" selection-start-column="35" selection-end-line="65" selection-end-column="35" />
+            <state relative-caret-position="420">
+              <caret line="35" column="4" lean-forward="true" selection-start-line="35" selection-start-column="4" selection-end-line="35" selection-end-column="4" />
               <folding>
                 <element signature="imports" expanded="true" />
-                <element signature="e#2270#2271#0" expanded="true" />
-                <element signature="e#2297#2298#0" expanded="true" />
-                <element signature="e#2066#2067#0" expanded="true" />
-                <element signature="e#2095#2096#0" expanded="true" />
+                <element signature="e#1139#1140#0" expanded="true" />
+                <element signature="e#1175#1176#0" expanded="true" />
+                <element signature="e#2632#2633#0" expanded="true" />
+                <element signature="e#2656#2657#0" expanded="true" />
               </folding>
             </state>
           </provider>
         </entry>
       </file>
       <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/com/wasyl/NewGame/Blocks/PlayerBlock.java">
+        <entry file="file://$PROJECT_DIR$/src/com/wasyl/NewGame/graph/Vertex.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="285">
-              <caret line="19" column="24" lean-forward="true" selection-start-line="19" selection-start-column="24" selection-end-line="19" selection-end-column="24" />
-              <folding>
-                <element signature="imports" expanded="true" />
-              </folding>
+            <state relative-caret-position="34">
+              <caret line="4" column="13" selection-start-line="4" selection-start-column="13" selection-end-line="4" selection-end-column="13" />
             </state>
           </provider>
         </entry>
       </file>
       <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/com/wasyl/NewGame/Blocks/EnemyBlock.java">
+        <entry file="file://$PROJECT_DIR$/src/com/wasyl/NewGame/Framework/LevelMaker.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="514">
-              <caret line="53" column="46" selection-start-line="53" selection-start-column="46" selection-end-line="53" selection-end-column="46" />
+            <state relative-caret-position="304">
+              <caret line="49" column="63" selection-start-line="49" selection-start-column="63" selection-end-line="49" selection-end-column="63" />
               <folding>
                 <element signature="imports" expanded="true" />
               </folding>
@@ -112,8 +108,8 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/com/wasyl/NewGame/Blocks/BackgroundBlock.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="150">
-              <caret line="10" column="53" selection-start-line="10" selection-start-column="53" selection-end-line="10" selection-end-column="53" />
+            <state relative-caret-position="240">
+              <caret line="16" lean-forward="true" selection-start-line="16" selection-end-line="16" />
               <folding>
                 <element signature="imports" expanded="true" />
               </folding>
@@ -122,50 +118,45 @@
         </entry>
       </file>
       <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/com/wasyl/NewGame/Blocks/BlocksId.java">
+        <entry file="file://$PROJECT_DIR$/src/com/wasyl/NewGame/Blocks/EnemyBlock.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="30">
-              <caret line="2" column="12" selection-start-line="2" selection-start-column="12" selection-end-line="2" selection-end-column="12" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/com/wasyl/NewGame/Framework/Handler.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="319">
-              <caret line="34" column="44" selection-start-line="34" selection-start-column="44" selection-end-line="34" selection-end-column="44" />
+            <state relative-caret-position="154">
+              <caret line="48" column="24" lean-forward="true" selection-start-line="48" selection-start-column="24" selection-end-line="48" selection-end-column="24" />
               <folding>
                 <element signature="imports" expanded="true" />
-                <element signature="e#520#521#0" expanded="true" />
-                <element signature="e#562#563#0" expanded="true" />
-                <element signature="e#933#934#0" expanded="true" />
-                <element signature="e#1388#1389#0" expanded="true" />
-                <element signature="e#1421#1422#0" expanded="true" />
-                <element signature="e#1417#1418#0" expanded="true" />
-                <element signature="e#1444#1445#0" expanded="true" />
+                <element signature="e#2285#2286#0" expanded="true" />
               </folding>
             </state>
           </provider>
         </entry>
       </file>
       <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/com/wasyl/NewGame/Framework/LevelMaker.java">
+        <entry file="file://$PROJECT_DIR$/src/com/wasyl/NewGame/graph/GraphAlgorithmsInterface.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="270">
-              <caret line="18" column="80" selection-start-line="18" selection-start-column="80" selection-end-line="18" selection-end-column="80" />
-              <folding>
-                <element signature="imports" expanded="true" />
-              </folding>
+            <state relative-caret-position="60">
+              <caret line="4" column="17" selection-start-line="4" selection-start-column="17" selection-end-line="4" selection-end-column="17" />
             </state>
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/src/com/wasyl/NewGame/graphPackage/Graph.java">
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/com/wasyl/NewGame/graph/GraphImplementationInterface.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="30">
-              <caret line="2" column="20" lean-forward="true" selection-start-line="2" selection-start-column="20" selection-end-line="2" selection-end-column="20" />
+            <state relative-caret-position="15">
+              <caret line="5" column="10" selection-start-line="5" selection-start-column="10" selection-end-line="5" selection-end-column="10" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/com/wasyl/NewGame/graph/MyGraph.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="296">
+              <caret line="491" lean-forward="true" selection-start-line="491" selection-end-line="491" />
+              <folding>
+                <element signature="e#3368#3369#0" expanded="true" />
+                <element signature="e#3415#3416#0" expanded="true" />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -193,14 +184,26 @@
         <option value="$PROJECT_DIR$/src/com/wasyl/NewGame/Blocks/AbstractBlockInterface.java" />
         <option value="$PROJECT_DIR$/src/com/wasyl/NewGame/Blocks/BackgroundBlock.java" />
         <option value="$PROJECT_DIR$/src/com/wasyl/NewGame/Blocks/WallBlock.java" />
-        <option value="$PROJECT_DIR$/src/com/wasyl/NewGame/Blocks/AbstractBlock.java" />
-        <option value="$PROJECT_DIR$/src/com/wasyl/NewGame/Framework/Handler.java" />
+        <option value="$PROJECT_DIR$/src/com/wasyl/NewGame/graph/AbstractGraph.java" />
+        <option value="$PROJECT_DIR$/src/com/wasyl/NewGame/graph/GraphImplementationInterface.java" />
+        <option value="$PROJECT_DIR$/src/com/wasyl/NewGame/graph/GraphAlgorithmsInterface.java" />
+        <option value="$PROJECT_DIR$/src/com/wasyl/NewGame/graph/Vertex.java" />
+        <option value="$PROJECT_DIR$/src/com/wasyl/NewGame/graph/MyGraph.java" />
+        <option value="$PROJECT_DIR$/src/com/wasyl/NewGame/graph/Edge.java" />
         <option value="$PROJECT_DIR$/src/com/wasyl/NewGame/Blocks/PlayerBlock.java" />
-        <option value="$PROJECT_DIR$/src/com/wasyl/NewGame/Blocks/EnemyBlock.java" />
         <option value="$PROJECT_DIR$/src/com/wasyl/NewGame/Framework/Game.java" />
         <option value="$PROJECT_DIR$/src/com/wasyl/NewGame/Framework/LevelMaker.java" />
+        <option value="$PROJECT_DIR$/src/com/wasyl/NewGame/Blocks/EnemyBlock.java" />
+        <option value="$PROJECT_DIR$/src/com/wasyl/NewGame/Blocks/AbstractBlock.java" />
+        <option value="$PROJECT_DIR$/src/com/wasyl/NewGame/Framework/Handler.java" />
       </list>
     </option>
+  </component>
+  <component name="MavenProjectNavigator">
+    <treeState>
+      <expand />
+      <select />
+    </treeState>
   </component>
   <component name="ProjectFrameBounds" extendedState="6">
     <option name="x" value="-10" />
@@ -253,14 +256,14 @@
               <item name="NewGame" type="462c0819:PsiDirectoryNode" />
               <item name="src" type="462c0819:PsiDirectoryNode" />
               <item name="NewGame" type="462c0819:PsiDirectoryNode" />
-              <item name="graphPackage" type="462c0819:PsiDirectoryNode" />
+              <item name="graph" type="462c0819:PsiDirectoryNode" />
             </path>
           </expand>
           <select />
         </subPane>
       </pane>
-      <pane id="Scope" />
       <pane id="PackagesPane" />
+      <pane id="Scope" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -314,6 +317,7 @@
       <workItem from="1561564335342" duration="255000" />
       <workItem from="1561582981195" duration="4775000" />
       <workItem from="1561635311260" duration="2234000" />
+      <workItem from="1561637612025" duration="3625000" />
     </task>
     <task id="LOCAL-00001" summary="new 1.2">
       <created>1561242052904</created>
@@ -350,18 +354,32 @@
       <option name="project" value="LOCAL" />
       <updated>1561583074705</updated>
     </task>
-    <option name="localTasksCounter" value="6" />
+    <task id="LOCAL-00006" summary="cały graf">
+      <created>1561637805939</created>
+      <option name="number" value="00006" />
+      <option name="presentableId" value="LOCAL-00006" />
+      <option name="project" value="LOCAL" />
+      <updated>1561637805939</updated>
+    </task>
+    <task id="LOCAL-00007" summary="cały graf">
+      <created>1561637825889</created>
+      <option name="number" value="00007" />
+      <option name="presentableId" value="LOCAL-00007" />
+      <option name="project" value="LOCAL" />
+      <updated>1561637825889</updated>
+    </task>
+    <option name="localTasksCounter" value="8" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="10923000" />
+    <option name="totallyTimeSpent" value="14548000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-7" y="-7" width="1550" height="838" extended-state="6" />
     <editor active="true" />
     <layout>
-      <window_info active="true" content_ui="combo" id="Project" order="0" sideWeight="0.49167928" visible="true" weight="0.16778524" />
-      <window_info id="Structure" order="1" sideWeight="0.50832075" side_tool="true" visible="true" weight="0.16778524" />
+      <window_info active="true" content_ui="combo" id="Project" order="0" sideWeight="0.49016643" visible="true" weight="0.16979866" />
+      <window_info id="Structure" order="1" sideWeight="0.5098336" side_tool="true" weight="0.16979866" />
       <window_info id="Image Layers" order="2" />
       <window_info id="Designer" order="3" />
       <window_info id="UI Designer" order="4" />
@@ -387,8 +405,8 @@
       <window_info anchor="right" id="Theme Preview" order="5" />
       <window_info anchor="right" id="Palette&#9;" order="6" />
       <window_info anchor="right" id="Maven Projects" order="7" show_stripe_button="false" />
-      <window_info anchor="right" id="Run" internal_type="SLIDING" order="8" type="SLIDING" weight="0.41684434" />
-      <window_info anchor="right" id="Maven" order="9" />
+      <window_info anchor="right" id="Run" internal_type="SLIDING" order="8" type="SLIDING" weight="0.41677853" />
+      <window_info anchor="right" id="Maven" order="9" weight="0.3295302" />
       <window_info anchor="right" id="Database" order="10" weight="0.32995737" />
     </layout>
   </component>
@@ -399,51 +417,11 @@
     <MESSAGE value="new 1.1" />
     <MESSAGE value="new 1.2" />
     <MESSAGE value="new 2.0" />
-    <option name="LAST_COMMIT_MESSAGE" value="new 2.0" />
+    <MESSAGE value="cały graf" />
+    <option name="LAST_COMMIT_MESSAGE" value="cały graf" />
   </component>
   <component name="editorHistoryManager">
     <entry file="file://$PROJECT_DIR$/src/com/wasyl/NewGame/Framework/Frame.java" />
-    <entry file="file://$PROJECT_DIR$/src/com/wasyl/NewGame/Blocks/BlocksId.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="30">
-          <caret line="2" column="12" selection-start-line="2" selection-start-column="12" selection-end-line="2" selection-end-column="12" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/wasyl/NewGame/Blocks/BackgroundBlock.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="150">
-          <caret line="10" column="53" selection-start-line="10" selection-start-column="53" selection-end-line="10" selection-end-column="53" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/wasyl/NewGame/Blocks/PlayerBlock.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="285">
-          <caret line="19" column="24" lean-forward="true" selection-start-line="19" selection-start-column="24" selection-end-line="19" selection-end-column="24" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/wasyl/NewGame/Blocks/AbstractBlock.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="244">
-          <caret line="65" column="35" lean-forward="true" selection-start-line="65" selection-start-column="35" selection-end-line="65" selection-end-column="35" />
-          <folding>
-            <element signature="imports" expanded="true" />
-            <element signature="e#2270#2271#0" expanded="true" />
-            <element signature="e#2297#2298#0" expanded="true" />
-            <element signature="e#2066#2067#0" expanded="true" />
-            <element signature="e#2095#2096#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/com/wasyl/NewGame/Blocks/WallBlock.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="150">
@@ -454,10 +432,125 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/wasyl/NewGame/graphPackage/Graph.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="30">
+          <caret line="2" column="20" selection-start-line="2" selection-start-column="20" selection-end-line="2" selection-end-column="20" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/wasyl/NewGame/Blocks/BlocksId.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state>
+          <caret column="22" lean-forward="true" selection-end-line="1" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/wasyl/NewGame/graph/AbstractGraph.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="30">
+          <caret line="2" column="22" selection-start-line="2" selection-start-column="22" selection-end-line="2" selection-end-column="22" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/wasyl/NewGame/Blocks/PlayerBlock.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="90">
+          <caret line="6" lean-forward="true" selection-start-line="6" selection-end-line="6" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/wasyl/NewGame/graph/Edge.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="124">
+          <caret line="9" column="45" selection-start-line="9" selection-start-column="45" selection-end-line="9" selection-end-column="45" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/wasyl/NewGame/graph/GraphAlgorithmsInterface.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="60">
+          <caret line="4" column="17" selection-start-line="4" selection-start-column="17" selection-end-line="4" selection-end-column="17" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/wasyl/NewGame/Framework/Game.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="470">
+          <caret line="132" column="33" selection-start-line="132" selection-start-column="33" selection-end-line="132" selection-end-column="33" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/wasyl/NewGame/Framework/LevelMaker.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="304">
+          <caret line="49" column="63" selection-start-line="49" selection-start-column="63" selection-end-line="49" selection-end-column="63" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/wasyl/NewGame/graph/MyGraph.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="296">
+          <caret line="491" lean-forward="true" selection-start-line="491" selection-end-line="491" />
+          <folding>
+            <element signature="e#3368#3369#0" expanded="true" />
+            <element signature="e#3415#3416#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/wasyl/NewGame/graph/Vertex.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="34">
+          <caret line="4" column="13" selection-start-line="4" selection-start-column="13" selection-end-line="4" selection-end-column="13" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/wasyl/NewGame/graph/GraphImplementationInterface.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="15">
+          <caret line="5" column="10" selection-start-line="5" selection-start-column="10" selection-end-line="5" selection-end-column="10" />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/src/com/wasyl/NewGame/Blocks/EnemyBlock.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="514">
-          <caret line="53" column="46" selection-start-line="53" selection-start-column="46" selection-end-line="53" selection-end-column="46" />
+        <state relative-caret-position="154">
+          <caret line="48" column="24" lean-forward="true" selection-start-line="48" selection-start-column="24" selection-end-line="48" selection-end-column="24" />
+          <folding>
+            <element signature="imports" expanded="true" />
+            <element signature="e#2285#2286#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/wasyl/NewGame/Blocks/AbstractBlock.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="420">
+          <caret line="35" column="4" lean-forward="true" selection-start-line="35" selection-start-column="4" selection-end-line="35" selection-end-column="4" />
+          <folding>
+            <element signature="imports" expanded="true" />
+            <element signature="e#1139#1140#0" expanded="true" />
+            <element signature="e#1175#1176#0" expanded="true" />
+            <element signature="e#2632#2633#0" expanded="true" />
+            <element signature="e#2656#2657#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/wasyl/NewGame/Blocks/BackgroundBlock.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="240">
+          <caret line="16" lean-forward="true" selection-start-line="16" selection-end-line="16" />
           <folding>
             <element signature="imports" expanded="true" />
           </folding>
@@ -466,51 +559,17 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/com/wasyl/NewGame/Framework/Handler.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="319">
-          <caret line="34" column="44" selection-start-line="34" selection-start-column="44" selection-end-line="34" selection-end-column="44" />
+        <state relative-caret-position="244">
+          <caret line="26" column="39" selection-start-line="26" selection-start-column="39" selection-end-line="26" selection-end-column="39" />
           <folding>
             <element signature="imports" expanded="true" />
-            <element signature="e#520#521#0" expanded="true" />
-            <element signature="e#562#563#0" expanded="true" />
+            <element signature="e#903#904#0" expanded="true" />
             <element signature="e#933#934#0" expanded="true" />
-            <element signature="e#1388#1389#0" expanded="true" />
-            <element signature="e#1421#1422#0" expanded="true" />
-            <element signature="e#1417#1418#0" expanded="true" />
-            <element signature="e#1444#1445#0" expanded="true" />
+            <element signature="e#1239#1240#0" expanded="true" />
+            <element signature="e#1270#1271#0" expanded="true" />
+            <element signature="e#1319#1320#0" expanded="true" />
+            <element signature="e#1359#1360#0" expanded="true" />
           </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/wasyl/NewGame/Framework/Game.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="454">
-          <caret line="103" column="31" selection-start-line="103" selection-start-column="31" selection-end-line="103" selection-end-column="31" />
-          <folding>
-            <element signature="imports" expanded="true" />
-            <element signature="e#4426#4427#0" expanded="true" />
-            <element signature="e#4454#4455#0" expanded="true" />
-            <element signature="e#4518#4519#0" expanded="true" />
-            <element signature="e#4557#4558#0" expanded="true" />
-            <element signature="e#4618#4619#0" expanded="true" />
-            <element signature="e#4674#4675#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/wasyl/NewGame/Framework/LevelMaker.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="270">
-          <caret line="18" column="80" selection-start-line="18" selection-start-column="80" selection-end-line="18" selection-end-column="80" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/wasyl/NewGame/graphPackage/Graph.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="30">
-          <caret line="2" column="20" lean-forward="true" selection-start-line="2" selection-start-column="20" selection-end-line="2" selection-end-column="20" />
         </state>
       </provider>
     </entry>

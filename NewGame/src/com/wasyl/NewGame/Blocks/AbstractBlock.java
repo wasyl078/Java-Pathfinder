@@ -1,6 +1,7 @@
 package com.wasyl.NewGame.Blocks;
 
 import com.wasyl.NewGame.Framework.Handler;
+import com.wasyl.NewGame.graph.Vertex;
 import javafx.geometry.Rectangle2D;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.paint.Color;
@@ -11,6 +12,7 @@ public abstract class AbstractBlock {
 
     //zmienne dla każdego bloku
     private ArrayList<AbstractBlock> blocks;
+    private Vertex v;
     private int positionX;
     private int positionY;
     private int defaultX = 25;
@@ -26,10 +28,15 @@ public abstract class AbstractBlock {
         this.positionX = positionX;
         this.positionY = positionY;
         this.blocks = handler.getBlocksList();
+        v = new Vertex((getPositionY() + 1)*100 + (getPositionX() + 1));
     }
 
     //metody do nadpisania lub nie
     public abstract void update(ArrayList<AbstractBlock> blocks);
+
+    public void updateVertexNumber(){
+        this.v = new Vertex((getPositionY() + 1)*100 + (getPositionX() + 1));
+    }
 
     public void draw(GraphicsContext gc) {
         gc.setFill(getColor());
@@ -88,5 +95,9 @@ public abstract class AbstractBlock {
 
     public ArrayList<AbstractBlock> getBlocks() {
         return blocks;
+    }
+
+    public Vertex getV() {
+        return v;
     }
 }

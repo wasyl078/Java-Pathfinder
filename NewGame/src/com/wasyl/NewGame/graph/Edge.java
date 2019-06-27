@@ -7,7 +7,7 @@ public class Edge {
     private Vertex vertex1;
     private Vertex vertex2;
     private int wage;
-    private final static int DEFAULT_WAGE = 0;
+    private final static int DEFAULT_WAGE = 1;
 
     public Edge(Vertex vertex1, Vertex vertex2) {
         this.vertex1 = vertex1;
