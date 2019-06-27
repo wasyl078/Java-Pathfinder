@@ -10,11 +10,11 @@ import javafx.scene.Scene;
 import javafx.scene.SceneAntialiasing;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
-import javafx.scene.paint.Color;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyEvent;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 
-import java.util.ArrayList;
 
 public class Game extends Application {
 
@@ -25,11 +25,11 @@ public class Game extends Application {
     private GraphicsContext gc;
 
     //związane z obiektami w grze
-    private ArrayList<String> input;
     private Handler handler;
     private int playerLastAction;
     private PlayerBlock player;
-
+    private boolean ableToMove = true;
+    private final int step = 1;
     //start() == launch()
     @Override
     public void start(Stage stage) {
@@ -43,24 +43,40 @@ public class Game extends Application {
         initializeImportantObjcects();
 
         //obsługa zdarzeń z klawiatury
-        scene.setOnKeyPressed(
-                e -> {
-                    String code = e.getCode().toString();
-                    if (!input.contains(code)) input.add(code);
-                    if (code.equals("UP")) setPlayerLastAction(1);
-                    else if (code.equals("RIGHT")) setPlayerLastAction(2);
-                    else if (code.equals("DOWN")) setPlayerLastAction(3);
-                    else if (code.equals("LEFT")) setPlayerLastAction(4);
-                    if (code.equals("ESCAPE")) System.exit(0);
-                });
+        scene.addEventHandler(KeyEvent.KEY_PRESSED, (key) -> {
+            KeyCode e = key.getCode();
+            if(e == KeyCode.ESCAPE) System.exit(0);
 
-        scene.setOnKeyReleased(
-                e -> {
-                    String code = e.getCode().toString();
-                    input.remove(code);
-                    if (input.isEmpty() || code.equals("LEFT") || code.equals("RIGHT")) setPlayerLastAction(0);
-                });
+            if (ableToMove) {
+                switch (e) {
+                    case UP: {
+                        player.setPositionY(player.getPositionY() - step);
+                        break;
+                    }
+                    case DOWN: {
+                        player.setPositionY(player.getPositionY() + step);
+                        break;
+                    }
+                    case LEFT: {
+                        player.setPositionX(player.getPositionX() - step);
+                        break;
+                    }
+                    case RIGHT: {
+                        player.setPositionX(player.getPositionX() + step);
+                        break;
+                    }
+                }
+            } else setPlayerLastAction(0);
+            ableToMove = false;
+        });
+        scene.addEventHandler(KeyEvent.KEY_RELEASED, (key) -> {
+            KeyCode e = key.getCode();
 
+            if (e == KeyCode.UP || e == KeyCode.DOWN || e == KeyCode.RIGHT || e == KeyCode.LEFT) {
+                setPlayerLastAction(0);
+                ableToMove = true;
+            }
+        });
         //stworzenie płótna
         root.getChildren().add(canvas);
 
@@ -69,7 +85,8 @@ public class Game extends Application {
         gameLoop.setCycleCount(Timeline.INDEFINITE);
 
         KeyFrame kf = new KeyFrame(
-                Duration.seconds(0.0166666),                // 60 FPS
+                //Duration.seconds(0.0166666),                // 60 FPS
+                Duration.seconds(0.033333),                // 30 FPS
                 ae -> update());
 
         gameLoop.getKeyFrames().add(kf);
@@ -78,18 +95,19 @@ public class Game extends Application {
     }
 
     //inicjalizowanie obiektów
-    private void initializeImportantObjcects(){
-        input= new ArrayList<>();
+    private void initializeImportantObjcects() {
         handler = new Handler();
-        player = new PlayerBlock(0,0, BlocksId.PlayerBlock, Color.RED, this);
-        playerLastAction = 0;
+        player = new PlayerBlock(10, 5, BlocksId.PlayerBlock, handler);
+        handler.addBlock(player);
+        LevelMaker.makeDefaultLevel(handler);
+        handler.removeBlock(player);
         handler.addBlock(player);
         canvas = new Canvas(screenWidth, screenHeight);
         gc = canvas.getGraphicsContext2D();
     }
 
     //aktualizowanie i wyświetlanie obiektów
-    private void update(){
+    private void update() {
         handler.update();
         handler.draw(gc);
     }
@@ -98,6 +116,7 @@ public class Game extends Application {
     public static void main(String[] args) {
         launch(args);
     }
+
     //settery i gettery
     public int getPlayerLastAction() {
         return playerLastAction;
