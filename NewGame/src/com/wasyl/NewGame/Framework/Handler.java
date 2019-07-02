@@ -4,70 +4,72 @@ import com.wasyl.NewGame.Blocks.AbstractBlock;
 import com.wasyl.NewGame.Blocks.BlocksId;
 import com.wasyl.NewGame.aStar.aStarGraph;
 import javafx.scene.canvas.GraphicsContext;
-import javafx.scene.paint.Color;
 
 import java.util.ArrayList;
 
 //klasa Handler służy do wywoływania aktualizowania wszystkich bloków
 public class Handler {
 
-    //lista wszystkich obiektów, które trzeba aktualizować
-    private ArrayList<AbstractBlock> blocks;
-    private AbstractBlock[][] nodes;
+    //lista wszystkich obiektów, które trzeba aktualizować oraz macierz planszy
+    private ArrayList<AbstractBlock> objects;
+    private AbstractBlock[][] blocksMatrix;
 
     //graf mapy
     private aStarGraph starGraph;
 
     //konstruktor, który tworzy pustą listę bloków
     public Handler() {
-        nodes = new AbstractBlock[64][36];
-        blocks = new ArrayList<>();
+        blocksMatrix = new AbstractBlock[64][36];
+        objects = new ArrayList<>();
     }
 
     //aktualizowanie wszystkich obiektów
-    public void update() {
-        ArrayList<AbstractBlock>blocksToDelete = new ArrayList<>();
-        for (AbstractBlock block : blocks) {
-            block.update(blocks);
-            block.updateNode();
+    void update() {
+        for (AbstractBlock ab : objects) {
+            ab.update(objects);
+            ab.updateNode();
         }
+        //wystarczy aktualizować tylko ruchome elementy
+        // plansza nie musi być aktualizowana
     }
 
-    //rysowanie wszystkich obiektów
+    //rysowanie wszystkich obiektów i całej planszy
     public void draw(GraphicsContext gc) {
-        gc.setFill(Color.BLACK);
-        for (AbstractBlock block : blocks)
-            block.draw(gc);
+        //plansza
+        for (int x = 0; x < Game.HORIZONTAL_NUMBER_OF_BLOCKS; x++)
+            for (int y = 0; y < Game.VERTICAL_NUMBER_OF_BLOCKS; y++)
+                blocksMatrix[x][y].draw(gc);
+
+        //obiekty ruchome
+        for (AbstractBlock ab : objects)
+            ab.draw(gc);
     }
 
-    //dodawanie bloków
-    public void addBlock(AbstractBlock ab) {
-        blocks.add(ab);
-
-        if(ab.getBlocksId() == BlocksId.WallBlock || ab.getBlocksId() == BlocksId.BackgroundBlock)
-            nodes[ab.getNode().getX()][ab.getNode().getY()] = ab;
+    //dodawanie bloków lub ruchomych obiektów
+    public void addElement(AbstractBlock ab) {
+        //jeżeli dodawanym elementem jest część planszy
+        if (ab.getBlocksId() == BlocksId.BackgroundBlock || ab.getBlocksId() == BlocksId.WallBlock)
+            blocksMatrix[ab.getNode().getX()][ab.getNode().getY()] = ab;
+            //jeżeli jest jakimś ruchomym elementem
+        else objects.add(ab);
     }
 
-    //usuwanie bloków
-    public void removeBlock(AbstractBlock ab) {
-        blocks.remove(ab);
-    }
-
-    public void removeBlock(int x, int y) {
-        AbstractBlock abToRemove = null;
-        for (AbstractBlock ab : blocks)
-            if (ab.getPositionY() == y && ab.getPositionX() == x)
-                abToRemove = ab;
-        if (abToRemove != null)
-            blocks.remove(abToRemove);
-
-        if(abToRemove.getBlocksId() == BlocksId.WallBlock || abToRemove.getBlocksId() == BlocksId.BackgroundBlock)
-            nodes[abToRemove.getNode().getX()][abToRemove.getNode().getY()] = null;
+    //usuwanie bloków lub ruchomych obiektów
+    public void removeElement(AbstractBlock ab) {
+        //jeżeli usuwany element jest część planszy
+        if (ab.getBlocksId() == BlocksId.BackgroundBlock || ab.getBlocksId() == BlocksId.WallBlock)
+            blocksMatrix[ab.getNode().getX()][ab.getNode().getY()] = null;
+            //jeżeli jest jakimś ruchomym elementem
+        else objects.remove(ab);
     }
 
     //getter do listy bloków
-    public ArrayList<AbstractBlock> getBlocksList() {
-        return this.blocks;
+    public ArrayList<AbstractBlock> getObjectsList() {
+        return this.objects;
+    }
+
+    public AbstractBlock[][] getBlocksMatrix(){
+        return this.blocksMatrix;
     }
 
     public aStarGraph getStarGraph() {
@@ -76,9 +78,5 @@ public class Handler {
 
     public void setStarGraph(aStarGraph starGraph) {
         this.starGraph = starGraph;
-    }
-
-    public AbstractBlock[][] getNodes() {
-        return nodes;
     }
 }

@@ -10,18 +10,17 @@ public class LevelMaker {
     public static void makeDefaultLevel(Handler handler) {
         for (int i = 0; i < 64; i++)
             for (int j = 0; j < 36; j++)
-                handler.addBlock(new BackgroundBlock(i, j, BlocksId.BackgroundBlock, handler));
+                handler.addElement(new BackgroundBlock(i, j, BlocksId.BackgroundBlock, handler));
 
 
         for (int i = 0; i < 20; i++)
             for (int j = 0; j < 3; j++) {
-                handler.removeBlock(i + 4, j * 4 + 3);
-                handler.addBlock(new WallBlock(i + 4, j * 4 + 3, BlocksId.WallBlock, handler));
+                handler.addElement(new WallBlock(i + 4, j * 4 + 3, BlocksId.WallBlock, handler));
             }
 
         EnemyBlock enemy = new EnemyBlock(5, 14, BlocksId.EnemyBlock, handler);
         enemy.setPlayer();
-        handler.addBlock(enemy);
+        handler.addElement(enemy);
 
         //utworzenie aStarGraph'u na podstawie tej planszy
         aStarGraph graph = new aStarGraph(handler);

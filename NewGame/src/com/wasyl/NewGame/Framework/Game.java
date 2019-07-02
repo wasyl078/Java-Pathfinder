@@ -100,10 +100,10 @@ public class Game extends Application {
     private void initializeImportantObjcects() {
         handler = new Handler();
         player = new PlayerBlock(10, 2, BlocksId.PlayerBlock, handler);
-        handler.addBlock(player);
+        handler.addElement(player);
         LevelMaker.makeDefaultLevel(handler);
-        handler.removeBlock(player);
-        handler.addBlock(player);
+        handler.removeElement(player);
+        handler.addElement(player);
         canvas = new Canvas(screenWidth, screenHeight);
         gc = canvas.getGraphicsContext2D();
     }

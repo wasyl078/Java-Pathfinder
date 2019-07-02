@@ -23,7 +23,8 @@ public abstract class AbstractBlock {
     private Color color;
 
     //zmienne prywatne dla każdego bloku zawierające elementy niezbędne do pracy nad nim
-    private ArrayList<AbstractBlock> blocks;
+    private ArrayList<AbstractBlock> objects;
+    private AbstractBlock[][] blocks;
     private boolean toDelete = false;
     private aStarNode node;
 
@@ -32,12 +33,13 @@ public abstract class AbstractBlock {
         this.blocksId = blocksId;
         this.positionX = positionX;
         this.positionY = positionY;
-        this.blocks = handler.getBlocksList();
+        this.blocks = handler.getBlocksMatrix();
+        this.objects = handler.getObjectsList();
         this.node = new aStarNode(positionX, 35 - positionY, blocksId == BlocksId.WallBlock);
     }
 
     //update() - należy ją nadpisać - służy do aktualizowanai stanu bloku przy każdej klatce
-    public abstract void update(ArrayList<AbstractBlock> blocks);
+    public abstract void update(ArrayList<AbstractBlock> objects);
 
     //updateNode() - pomocnicza metoda do aktualizowania stanu odpowiadającego blokowi node'a
     public void updateNode() {
@@ -57,12 +59,13 @@ public abstract class AbstractBlock {
 
     //ustawianie X sprawdza czy na tym miejscu nie znajduje się przypadkiem ściana
     public void setPositionX(int positionX) {
-        for (AbstractBlock ab : getBlocks())
-            if (ab.getBlocksId() != BlocksId.BackgroundBlock && ab.getBlocksId() != BlocksId.PathBlock)
-                if (ab.getPositionX() == positionX && ab.getPositionY() == getPositionY()) {
-                    return;
-                }
-        this.positionX = positionX;
+        if (blocks[positionX][Game.VERTICAL_NUMBER_OF_BLOCKS - 1 - positionY].getBlocksId() != BlocksId.WallBlock) {
+            for (AbstractBlock ab : objects)
+                if (ab.getPositionX() == positionX && ab.getPositionY() == positionY)
+                    if (ab != this)
+                        return;
+            this.positionX = positionX;
+        }
     }
 
     public int getPositionY() {
@@ -70,11 +73,13 @@ public abstract class AbstractBlock {
     }
 
     public void setPositionY(int positionY) {
-        for (AbstractBlock ab : getBlocks())
-            if (ab.getBlocksId() != BlocksId.BackgroundBlock)
-                if (ab.getPositionY() == positionY && ab.getPositionX() == getPositionX())
-                    return;
-        this.positionY = positionY;
+        if (blocks[positionX][Game.VERTICAL_NUMBER_OF_BLOCKS - 1 - positionY].getBlocksId() != BlocksId.WallBlock){
+            for (AbstractBlock ab : objects)
+                if (ab.getPositionX() == positionX && ab.getPositionY() == positionY)
+                    if (ab != this)
+                        return;
+            this.positionY = positionY;
+        }
     }
 
     public BlocksId getBlocksId() {
@@ -89,8 +94,8 @@ public abstract class AbstractBlock {
         this.color = color;
     }
 
-    public ArrayList<AbstractBlock> getBlocks() {
-        return blocks;
+    public AbstractBlock[][] getBlocks() {
+        return this.blocks;
     }
 
     public boolean isToDelete() {

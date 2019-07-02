@@ -70,7 +70,7 @@ public class EnemyBlock extends AbstractBlock {
 
     //setter gracza
     public void setPlayer() {
-        for (AbstractBlock ab : getBlocks())
+        for (AbstractBlock ab : handler.getObjectsList())
             if (ab.getBlocksId() == BlocksId.PlayerBlock)
                 this.player = (PlayerBlock) ab;
     }

@@ -29,10 +29,9 @@ public class aStarGraph {
     //stworzenie macierzy nodów o założonej w Game wielkości
     // jeżeli jest on ścianą, to nie tworzymy z niego node'a w tablicy
     private void createNodesMatrix(Handler handler) {
-        for (AbstractBlock ab : handler.getBlocksList())
-            if (ab.getBlocksId() == BlocksId.BackgroundBlock || ab.getBlocksId() == BlocksId.WallBlock) {
-                int x = ab.getNode().getX();
-                int y = ab.getNode().getY();
+        for (int x = 0; x < Game.HORIZONTAL_NUMBER_OF_BLOCKS; x++)
+            for (int y = 0; y < Game.VERTICAL_NUMBER_OF_BLOCKS; y++){
+                AbstractBlock ab = handler.getBlocksMatrix()[x][y];
                 if (!ab.getNode().isObstraction())
                     nodes[x][y] = ab.getNode();
             }

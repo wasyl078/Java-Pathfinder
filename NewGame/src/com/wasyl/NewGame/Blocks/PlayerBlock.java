@@ -18,7 +18,7 @@ public class PlayerBlock extends AbstractBlock {
 
     //tutaj można ewentualnie wypisywać aktualną pozycję gracza
     @Override
-    public void update(ArrayList<AbstractBlock> blocks) {
+    public void update(ArrayList<AbstractBlock> objects) {
      //   System.out.println("  ||  now: " + getPositionX() + "x" + getPositionY());
     }
 }

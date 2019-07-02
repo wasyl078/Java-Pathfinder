@@ -16,7 +16,7 @@ public class PathBlock extends AbstractBlock {
     }
 
     @Override
-    public void update(ArrayList<AbstractBlock> blocks) {
+    public void update(ArrayList<AbstractBlock> objects) {
         liveTime--;
         if (liveTime < 0)
             setToDelete(true);

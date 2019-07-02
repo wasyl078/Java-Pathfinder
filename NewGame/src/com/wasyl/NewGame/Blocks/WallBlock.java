@@ -14,7 +14,7 @@ public class WallBlock extends AbstractBlock {
         setColor(Color.WHITE);
     }
     @Override
-    public void update(ArrayList<AbstractBlock> blocks) {
+    public void update(ArrayList<AbstractBlock> objects) {
         //żadna informacja nie musi być atualizowana dla ściany
     }
 }
