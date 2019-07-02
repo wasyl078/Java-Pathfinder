@@ -5,15 +5,16 @@ import javafx.scene.paint.Color;
 
 import java.util.ArrayList;
 
-public class WallBlock extends AbstractBlock{
+//blok ściany - nie można się na nim poruszać
+public class WallBlock extends AbstractBlock {
 
+    //konstruktor
     public WallBlock(int positionX, int positionY, BlocksId blocksId, Handler handler) {
         super(positionX, positionY, blocksId, handler);
         setColor(Color.WHITE);
     }
-
     @Override
     public void update(ArrayList<AbstractBlock> blocks) {
-
+        //żadna informacja nie musi być atualizowana dla ściany
     }
 }

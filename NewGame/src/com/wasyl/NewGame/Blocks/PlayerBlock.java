@@ -5,16 +5,18 @@ import javafx.scene.paint.Color;
 
 import java.util.ArrayList;
 
+//blok gracza - możliwy do sterowania strzałkami
 public class PlayerBlock extends AbstractBlock {
 
-    //referencja na klasę gry - żeby mieć wgląd w ostatnią akcję gracza
-
+    //konstruktor
     public PlayerBlock(int positionX, int positionY, BlocksId blocksId, Handler handler) {
         super(positionX, positionY, blocksId, handler);
         setColor(Color.GREEN);
     }
 
-    //tutaj - aktualizowanie pozycji gracza
+    //pozycja gracza aktualizowana jest w klasie Game
+
+    //tutaj można ewentualnie wypisywać aktualną pozycję gracza
     @Override
     public void update(ArrayList<AbstractBlock> blocks) {
      //   System.out.println("  ||  now: " + getPositionX() + "x" + getPositionY());

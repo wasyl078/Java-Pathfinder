@@ -7,14 +7,17 @@ import javafx.scene.paint.Color;
 
 import java.util.ArrayList;
 
+//blok przeciwnika - wyszukuję najkrótszą ścieżkę do gracza
 public class EnemyBlock extends AbstractBlock {
 
+    //posiada instancję samego gracza oraz kilka liczników
     private PlayerBlock player;
     private int counter = 0;
     private int refresh = 0;
     private Handler handler;
     private ArrayList<AbstractBlock> path;
 
+    //konstruktor
     public EnemyBlock(int positionX, int positionY, BlocksId blocksId, Handler handler) {
         super(positionX, positionY, blocksId, handler);
         setColor(Color.RED);
@@ -22,6 +25,7 @@ public class EnemyBlock extends AbstractBlock {
         path = new ArrayList<>();
     }
 
+    //nadpisanie update() - aktualizacja najkrótszej ścieżki do gracza - path
     @Override
     public void update(ArrayList<AbstractBlock> objects) {
         counter++;
@@ -38,6 +42,7 @@ public class EnemyBlock extends AbstractBlock {
         }
     }
 
+    //malowanie bloku przeciwnika oraz bloków ścieżki
     @Override
     public void draw(GraphicsContext gc) {
         gc.setFill(Color.BLUE);
@@ -55,6 +60,7 @@ public class EnemyBlock extends AbstractBlock {
         gc.fillRect(getPositionX() * DEFAULT_X, getPositionY() * DEFAULT_Y, AbstractBlock.SIDE_OF_BLOCK, AbstractBlock.SIDE_OF_BLOCK);
     }
 
+    //wywołanie obliczenia najkrótszej ścieżki od bloku do gracza
     public void calculateSSTF() {
         ArrayList<aStarNode> nodesPath = handler.getStarGraph().generateAStarPath(this.getNode(), player.getNode());
         this.path.clear();
@@ -62,6 +68,7 @@ public class EnemyBlock extends AbstractBlock {
             path.add(new PathBlock(node.getX(), 35 - node.getY(), BlocksId.PathBlock, handler));
     }
 
+    //setter gracza
     public void setPlayer() {
         for (AbstractBlock ab : getBlocks())
             if (ab.getBlocksId() == BlocksId.PlayerBlock)

@@ -1,10 +1,7 @@
 package com.wasyl.NewGame.Framework;
 
-import com.wasyl.NewGame.Blocks.AbstractBlock;
 import com.wasyl.NewGame.Blocks.BlocksId;
-import com.wasyl.NewGame.Blocks.EnemyBlock;
 import com.wasyl.NewGame.Blocks.PlayerBlock;
-import com.wasyl.NewGame.aStar.aStarGraph;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.application.Application;
@@ -18,7 +15,7 @@ import javafx.scene.input.KeyEvent;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 
-
+//klasa gry - tutaj tworzone są wszystkie instancje obiektów oraz obsługiwana jest klawiatura
 public class Game extends Application {
 
     //związane z okienkiem i rozmiarem gry
@@ -80,6 +77,7 @@ public class Game extends Application {
                 ableToMove = true;
             }
         });
+
         //stworzenie płótna
         root.getChildren().add(canvas);
 
@@ -87,6 +85,7 @@ public class Game extends Application {
         Timeline gameLoop = new Timeline();
         gameLoop.setCycleCount(Timeline.INDEFINITE);
 
+        //możliwość ustawienia ilości klatek na seundę
         KeyFrame kf = new KeyFrame(
                 //Duration.seconds(0.0166666),                // 60 FPS
                 Duration.seconds(0.033333),                // 30 FPS
@@ -97,7 +96,7 @@ public class Game extends Application {
         stage.show();
     }
 
-    //inicjalizowanie obiektów
+    //inicjalizowanie najważniejszych obiektów
     private void initializeImportantObjcects() {
         handler = new Handler();
         player = new PlayerBlock(10, 2, BlocksId.PlayerBlock, handler);

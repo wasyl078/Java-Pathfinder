@@ -5,6 +5,7 @@ import javafx.scene.paint.Color;
 
 import java.util.ArrayList;
 
+//blok ścieżki - niebieska kropka na bloku tła
 public class PathBlock extends AbstractBlock {
 
     private int liveTime = 100;

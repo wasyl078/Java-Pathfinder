@@ -5,6 +5,7 @@ import javafx.scene.paint.Color;
 
 import java.util.ArrayList;
 
+//blok tła - można po nim się poruszać
 public class BackgroundBlock extends AbstractBlock {
 
     public BackgroundBlock(int positionX, int positionY, BlocksId blocksId, Handler handler) {

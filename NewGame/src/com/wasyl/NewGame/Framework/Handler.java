@@ -8,6 +8,7 @@ import javafx.scene.paint.Color;
 
 import java.util.ArrayList;
 
+//klasa Handler służy do wywoływania aktualizowania wszystkich bloków
 public class Handler {
 
     //lista wszystkich obiektów, które trzeba aktualizować
