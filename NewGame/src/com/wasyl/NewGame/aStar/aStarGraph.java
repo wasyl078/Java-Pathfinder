@@ -123,7 +123,7 @@ public class aStarGraph {
     private ArrayList<aStarNode> reconstruct_path(aStarNode node) {
         ArrayList<aStarNode> path = new ArrayList<>();
         //póki dany node ma swojego rodzica, póty tworzona jest z nich ścieżka
-        while (node.getParentNode() != null) {
+        while (node != null) {
             path.add(node);
             node = node.getParentNode();
         }

@@ -18,7 +18,7 @@ public class LevelMaker {
                 handler.addElement(new WallBlock(i + 4, j * 4 + 3, BlocksId.WallBlock, handler));
             }
 
-        EnemyBlock enemy = new EnemyBlock(5, 14, BlocksId.EnemyBlock, handler);
+        EnemyBlock enemy = new EnemyBlock(10, 14, BlocksId.EnemyBlock, handler);
         enemy.setPlayer();
         handler.addElement(enemy);
 

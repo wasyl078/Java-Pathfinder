@@ -15,10 +15,14 @@ public class PathBlock extends AbstractBlock {
         setColor(Color.BLUE);
     }
 
+    //aktualizowanie czasu życia tego bloku
     @Override
     public void update(ArrayList<AbstractBlock> objects) {
         liveTime--;
-        if (liveTime < 0)
-            setToDelete(true);
+    }
+
+    //getter
+    public int getLiveTime() {
+        return liveTime;
     }
 }

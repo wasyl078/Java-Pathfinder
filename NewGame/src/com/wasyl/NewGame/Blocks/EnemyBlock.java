@@ -6,6 +6,7 @@ import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.paint.Color;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 
 //blok przeciwnika - wyszukuję najkrótszą ścieżkę do gracza
 public class EnemyBlock extends AbstractBlock {
@@ -30,16 +31,21 @@ public class EnemyBlock extends AbstractBlock {
     public void update(ArrayList<AbstractBlock> objects) {
         counter++;
         refresh++;
+
+        if (refresh >= 10) {
+            calculateSSTF();
+            refresh = 0;
+        }
+
         if (counter >= 10 && path.size() > 0) {
+            for (int i = 0; i < path.size(); i++)
+                System.out.println((i + 1) + ". " + path.get(i).getNode().getX() + "x" + path.get(i).getNode().getY());
             setPositionX(path.get(path.size() - 1).getPositionX());
             setPositionY(path.get(path.size() - 1).getPositionY());
             path.remove(path.size() - 1);
             counter = 0;
         }
-        if (refresh >= 10) {
-            calculateSSTF();
-            refresh = 0;
-        }
+
     }
 
     //malowanie bloku przeciwnika oraz bloków ścieżki
@@ -47,17 +53,16 @@ public class EnemyBlock extends AbstractBlock {
     public void draw(GraphicsContext gc) {
         gc.setFill(Color.BLUE);
 
-        ArrayList<AbstractBlock> blocksToDelete = new ArrayList<>();
-        for (AbstractBlock ab : path) {
-            gc.fillOval(ab.getPositionX() * DEFAULT_X + 5, ab.getPositionY() * DEFAULT_Y + 5, AbstractBlock.SIDE_OF_BLOCK / 5, AbstractBlock.SIDE_OF_BLOCK / 5);
-            if (ab.isToDelete())
-                blocksToDelete.add(ab);
+        Iterator iter = path.iterator();
+        while (iter.hasNext()) {
+            AbstractBlock ab = (AbstractBlock) iter.next();
+            gc.fillOval(ab.getPositionX() * DEFAULT_X + 5, ab.getPositionY() * DEFAULT_Y + 5, AbstractBlock.X_SIDE_OF_BLOCK / 5, AbstractBlock.Y_SIDE_OF_BLOCK / 5);
+            if (((PathBlock) ab).getLiveTime() < 0)
+                iter.remove();
         }
 
-        path.removeAll(blocksToDelete);
-
         gc.setFill(getColor());
-        gc.fillRect(getPositionX() * DEFAULT_X, getPositionY() * DEFAULT_Y, AbstractBlock.SIDE_OF_BLOCK, AbstractBlock.SIDE_OF_BLOCK);
+        gc.fillRect(getPositionX() * DEFAULT_X, getPositionY() * DEFAULT_Y, AbstractBlock.Y_SIDE_OF_BLOCK, AbstractBlock.Y_SIDE_OF_BLOCK);
     }
 
     //wywołanie obliczenia najkrótszej ścieżki od bloku do gracza

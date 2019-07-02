@@ -12,9 +12,10 @@ import java.util.ArrayList;
 public abstract class AbstractBlock {
 
     //stałe globalne
-    static final int DEFAULT_X = 25;
-    static final int DEFAULT_Y = 25;
-    static final int SIDE_OF_BLOCK = 25;
+    static final int DEFAULT_X = 25 * Game.SCREEN_WIDTH / 1600;
+    static final int DEFAULT_Y = 25 * Game.SCREEN_HEIGHT / 900;
+    static final int X_SIDE_OF_BLOCK = 25 * Game.SCREEN_WIDTH / 1600;
+    static final int Y_SIDE_OF_BLOCK = 25 * Game.SCREEN_HEIGHT / 900;
 
     //zmienne prywatbe dla każdego bloku definiującego jego egzystencje
     private int positionX;
@@ -25,7 +26,6 @@ public abstract class AbstractBlock {
     //zmienne prywatne dla każdego bloku zawierające elementy niezbędne do pracy nad nim
     private ArrayList<AbstractBlock> objects;
     private AbstractBlock[][] blocks;
-    private boolean toDelete = false;
     private aStarNode node;
 
     //konstruktor domyślny, definiuje stan bloku
@@ -49,7 +49,7 @@ public abstract class AbstractBlock {
     //draw() - tylko wyświetla każdy blok w odpowiednim miejscu w oknie
     public void draw(GraphicsContext gc) {
         gc.setFill(getColor());
-        gc.fillRect(getPositionX() * DEFAULT_X, getPositionY() * DEFAULT_Y, SIDE_OF_BLOCK, SIDE_OF_BLOCK);
+        gc.fillRect(getPositionX() * DEFAULT_X, getPositionY() * DEFAULT_Y, X_SIDE_OF_BLOCK, Y_SIDE_OF_BLOCK);
     }
 
     //gettery i settery
@@ -59,6 +59,12 @@ public abstract class AbstractBlock {
 
     //ustawianie X sprawdza czy na tym miejscu nie znajduje się przypadkiem ściana
     public void setPositionX(int positionX) {
+
+        //sprawdzenie podstawowych przypadków
+        if (positionX < 0 || positionX >= Game.HORIZONTAL_NUMBER_OF_BLOCKS)
+            return;
+
+        //sprawdzenie przypadków gdy docelowy blok jest ścianą lub innym ruchomym obiektem
         if (blocks[positionX][Game.VERTICAL_NUMBER_OF_BLOCKS - 1 - positionY].getBlocksId() != BlocksId.WallBlock) {
             for (AbstractBlock ab : objects)
                 if (ab.getPositionX() == positionX && ab.getPositionY() == positionY)
@@ -73,7 +79,13 @@ public abstract class AbstractBlock {
     }
 
     public void setPositionY(int positionY) {
-        if (blocks[positionX][Game.VERTICAL_NUMBER_OF_BLOCKS - 1 - positionY].getBlocksId() != BlocksId.WallBlock){
+
+        //sprawdzenie podstawowych przypadków
+        if (positionY < 0 || positionY >= Game.VERTICAL_NUMBER_OF_BLOCKS)
+            return;
+
+        //sprawdzenie przypadków gdy docelowy blok jest ścianą lub innym ruchomym obiektem
+        if (blocks[positionX][Game.VERTICAL_NUMBER_OF_BLOCKS - 1 - positionY].getBlocksId() != BlocksId.WallBlock) {
             for (AbstractBlock ab : objects)
                 if (ab.getPositionX() == positionX && ab.getPositionY() == positionY)
                     if (ab != this)
@@ -96,14 +108,6 @@ public abstract class AbstractBlock {
 
     public AbstractBlock[][] getBlocks() {
         return this.blocks;
-    }
-
-    public boolean isToDelete() {
-        return toDelete;
-    }
-
-    public void setToDelete(boolean toDelete) {
-        this.toDelete = toDelete;
     }
 
     public aStarNode getNode() {

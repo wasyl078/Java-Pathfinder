@@ -15,12 +15,17 @@ import javafx.scene.input.KeyEvent;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 
+import java.awt.*;
+
 //klasa gry - tutaj tworzone są wszystkie instancje obiektów oraz obsługiwana jest klawiatura
 public class Game extends Application {
 
     //związane z okienkiem i rozmiarem gry
-    private final static int screenWidth = 1600;
-    private final static int screenHeight = 900;
+    private static Dimension SCREEN_SIZE = Toolkit.getDefaultToolkit().getScreenSize();
+    public final static int SCREEN_WIDTH = (int)SCREEN_SIZE.getWidth();
+    public final static int SCREEN_HEIGHT = (int)SCREEN_SIZE.getHeight();
+    //public final static int SCREEN_WIDTH = 1600;
+    //public final static int SCREEN_HEIGHT = 900;
     public final static int HORIZONTAL_NUMBER_OF_BLOCKS = 64;
     public final static int VERTICAL_NUMBER_OF_BLOCKS = 36;
     private Canvas canvas;
@@ -38,11 +43,11 @@ public class Game extends Application {
         //stworzenie "frame'a", grupy oraz odpalenie gry
         stage.setTitle("Gra");
         Group root = new Group();
-        Scene scene = new Scene(root, screenWidth, screenHeight, true, SceneAntialiasing.BALANCED);
+        Scene scene = new Scene(root, SCREEN_WIDTH, SCREEN_HEIGHT, true, SceneAntialiasing.BALANCED);
         stage.setScene(scene);
 
         //zainicjalizowanie obiektów
-        initializeImportantObjcects();
+        initializeImportantObjects();
 
         //obsługa zdarzeń z klawiatury
         scene.addEventHandler(KeyEvent.KEY_PRESSED, (key) -> {
@@ -93,18 +98,23 @@ public class Game extends Application {
 
         gameLoop.getKeyFrames().add(kf);
         gameLoop.play();
+
+        //ustawienie full screen'a
+        stage.setMaximized(true);
+        stage.setFullScreen(true);
+
         stage.show();
     }
 
     //inicjalizowanie najważniejszych obiektów
-    private void initializeImportantObjcects() {
+    private void initializeImportantObjects() {
         handler = new Handler();
         player = new PlayerBlock(10, 2, BlocksId.PlayerBlock, handler);
         handler.addElement(player);
         LevelMaker.makeDefaultLevel(handler);
         handler.removeElement(player);
         handler.addElement(player);
-        canvas = new Canvas(screenWidth, screenHeight);
+        canvas = new Canvas(SCREEN_WIDTH, SCREEN_HEIGHT);
         gc = canvas.getGraphicsContext2D();
     }
 
