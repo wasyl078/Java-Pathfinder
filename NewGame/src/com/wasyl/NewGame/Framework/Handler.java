@@ -1,7 +1,8 @@
 package com.wasyl.NewGame.Framework;
 
 import com.wasyl.NewGame.Blocks.AbstractBlock;
-import com.wasyl.NewGame.graph.MyGraph;
+import com.wasyl.NewGame.Blocks.BlocksId;
+import com.wasyl.NewGame.aStar.aStarGraph;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.paint.Color;
 
@@ -11,20 +12,23 @@ public class Handler {
 
     //lista wszystkich obiektów, które trzeba aktualizować
     private ArrayList<AbstractBlock> blocks;
+    private AbstractBlock[][] nodes;
 
     //graf mapy
-    private MyGraph mapGraph;
+    private aStarGraph starGraph;
 
     //konstruktor, który tworzy pustą listę bloków
     public Handler() {
+        nodes = new AbstractBlock[64][36];
         blocks = new ArrayList<>();
     }
 
     //aktualizowanie wszystkich obiektów
     public void update() {
+        ArrayList<AbstractBlock>blocksToDelete = new ArrayList<>();
         for (AbstractBlock block : blocks) {
             block.update(blocks);
-            block.updateVertexNumber();
+            block.updateNode();
         }
     }
 
@@ -38,6 +42,9 @@ public class Handler {
     //dodawanie bloków
     public void addBlock(AbstractBlock ab) {
         blocks.add(ab);
+
+        if(ab.getBlocksId() == BlocksId.WallBlock || ab.getBlocksId() == BlocksId.BackgroundBlock)
+            nodes[ab.getNode().getX()][ab.getNode().getY()] = ab;
     }
 
     //usuwanie bloków
@@ -52,6 +59,9 @@ public class Handler {
                 abToRemove = ab;
         if (abToRemove != null)
             blocks.remove(abToRemove);
+
+        if(abToRemove.getBlocksId() == BlocksId.WallBlock || abToRemove.getBlocksId() == BlocksId.BackgroundBlock)
+            nodes[abToRemove.getNode().getX()][abToRemove.getNode().getY()] = null;
     }
 
     //getter do listy bloków
@@ -59,21 +69,15 @@ public class Handler {
         return this.blocks;
     }
 
-    //getter i setter grafu mapy
-    public MyGraph getMapGraph() {
-        return mapGraph;
+    public aStarGraph getStarGraph() {
+        return starGraph;
     }
 
-    public void setMapGraph(MyGraph mapGraph) {
-        this.mapGraph = mapGraph;
+    public void setStarGraph(aStarGraph starGraph) {
+        this.starGraph = starGraph;
     }
 
-    public void changeBlockColor(int x, int y) {
-        AbstractBlock abToRecolor = null;
-        for (AbstractBlock ab : blocks)
-            if (ab.getPositionY() == y && ab.getPositionX() == x)
-                abToRecolor = ab;
-        if (abToRecolor != null)
-            abToRecolor.setColor(Color.BLUE);
+    public AbstractBlock[][] getNodes() {
+        return nodes;
     }
 }

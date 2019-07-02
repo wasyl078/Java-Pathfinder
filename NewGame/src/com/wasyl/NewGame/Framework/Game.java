@@ -4,6 +4,7 @@ import com.wasyl.NewGame.Blocks.AbstractBlock;
 import com.wasyl.NewGame.Blocks.BlocksId;
 import com.wasyl.NewGame.Blocks.EnemyBlock;
 import com.wasyl.NewGame.Blocks.PlayerBlock;
+import com.wasyl.NewGame.aStar.aStarGraph;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.application.Application;
@@ -20,18 +21,20 @@ import javafx.util.Duration;
 
 public class Game extends Application {
 
-    //związane z okienkiem
+    //związane z okienkiem i rozmiarem gry
     private final static int screenWidth = 1600;
     private final static int screenHeight = 900;
+    public final static int HORIZONTAL_NUMBER_OF_BLOCKS = 64;
+    public final static int VERTICAL_NUMBER_OF_BLOCKS = 36;
     private Canvas canvas;
     private GraphicsContext gc;
 
     //związane z obiektami w grze
     private Handler handler;
-    private int playerLastAction;
     private PlayerBlock player;
     private boolean ableToMove = true;
     private final int step = 1;
+
     //start() == launch()
     @Override
     public void start(Stage stage) {
@@ -47,9 +50,7 @@ public class Game extends Application {
         //obsługa zdarzeń z klawiatury
         scene.addEventHandler(KeyEvent.KEY_PRESSED, (key) -> {
             KeyCode e = key.getCode();
-            if(e == KeyCode.ESCAPE) System.exit(0);
-
-            if(e == KeyCode.Z) calculateSSTF();
+            if (e == KeyCode.ESCAPE) System.exit(0);
 
             if (ableToMove) {
                 switch (e) {
@@ -70,14 +71,12 @@ public class Game extends Application {
                         break;
                     }
                 }
-            } else setPlayerLastAction(0);
+            }
             ableToMove = false;
         });
         scene.addEventHandler(KeyEvent.KEY_RELEASED, (key) -> {
             KeyCode e = key.getCode();
-
             if (e == KeyCode.UP || e == KeyCode.DOWN || e == KeyCode.RIGHT || e == KeyCode.LEFT) {
-                setPlayerLastAction(0);
                 ableToMove = true;
             }
         });
@@ -101,7 +100,7 @@ public class Game extends Application {
     //inicjalizowanie obiektów
     private void initializeImportantObjcects() {
         handler = new Handler();
-        player = new PlayerBlock(10, 5, BlocksId.PlayerBlock, handler);
+        player = new PlayerBlock(10, 2, BlocksId.PlayerBlock, handler);
         handler.addBlock(player);
         LevelMaker.makeDefaultLevel(handler);
         handler.removeBlock(player);
@@ -120,17 +119,4 @@ public class Game extends Application {
     public static void main(String[] args) {
         launch(args);
     }
-
-    //settery i gettery
-    public void setPlayerLastAction(int playerLastAction) {
-        this.playerLastAction = playerLastAction;
-    }
-
-    //Chwilowa metoda do wywołania oblcizenia sstf przez przeciwnika
-    private void calculateSSTF(){
-        for(AbstractBlock ab:handler.getBlocksList())
-            if(ab.getBlocksId() == BlocksId.EnemyBlock)
-                ((EnemyBlock)ab).calculateSSTF();
-    }
-
 }

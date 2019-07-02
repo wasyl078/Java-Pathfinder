@@ -1,63 +1,67 @@
 package com.wasyl.NewGame.Blocks;
 
+import com.wasyl.NewGame.Framework.Game;
 import com.wasyl.NewGame.Framework.Handler;
-import com.wasyl.NewGame.graph.Vertex;
-import javafx.geometry.Rectangle2D;
+import com.wasyl.NewGame.aStar.aStarNode;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.paint.Color;
 
 import java.util.ArrayList;
 
+//klasa abstrakcyjnego bloku, po której dziedziczy każdy element (blok) w grze
 public abstract class AbstractBlock {
 
-    //zmienne dla każdego bloku
-    private ArrayList<AbstractBlock> blocks;
-    private Vertex v;
+    //stałe globalne
+    static final int DEFAULT_X = 25;
+    static final int DEFAULT_Y = 25;
+    static final int SIDE_OF_BLOCK = 25;
+
+    //zmienne prywatbe dla każdego bloku definiującego jego egzystencje
     private int positionX;
     private int positionY;
-    private int defaultX = 25;
-    private int defaultY = 25;
     private BlocksId blocksId;
     private Color color;
-    private final int widthHeight = 25;
-    private final int step = 1;
 
-    //konstruktor domyślny
+    //zmienne prywatne dla każdego bloku zawierające elementy niezbędne do pracy nad nim
+    private ArrayList<AbstractBlock> blocks;
+    private boolean toDelete = false;
+    private aStarNode node;
+
+    //konstruktor domyślny, definiuje stan bloku
     public AbstractBlock(int positionX, int positionY, BlocksId blocksId, Handler handler) {
         this.blocksId = blocksId;
         this.positionX = positionX;
         this.positionY = positionY;
         this.blocks = handler.getBlocksList();
-        v = new Vertex((getPositionY() + 1)*100 + (getPositionX() + 1));
+        this.node = new aStarNode(positionX, 35 - positionY, blocksId == BlocksId.WallBlock);
     }
 
-    //metody do nadpisania lub nie
+    //update() - należy ją nadpisać - służy do aktualizowanai stanu bloku przy każdej klatce
     public abstract void update(ArrayList<AbstractBlock> blocks);
 
-    public void updateVertexNumber(){
-        this.v = new Vertex((getPositionY() + 1)*100 + (getPositionX() + 1));
+    //updateNode() - pomocnicza metoda do aktualizowania stanu odpowiadającego blokowi node'a
+    public void updateNode() {
+        this.node = new aStarNode(positionX, Game.VERTICAL_NUMBER_OF_BLOCKS - 1 - positionY, blocksId == BlocksId.WallBlock);
     }
 
+    //draw() - tylko wyświetla każdy blok w odpowiednim miejscu w oknie
     public void draw(GraphicsContext gc) {
         gc.setFill(getColor());
-        gc.fillRect(getPositionX() * defaultX, getPositionY() * defaultY, getWidthHeight(), getWidthHeight());
+        gc.fillRect(getPositionX() * DEFAULT_X, getPositionY() * DEFAULT_Y, SIDE_OF_BLOCK, SIDE_OF_BLOCK);
     }
 
-    //kolizje
-    public Rectangle2D getBounds() {
-        return new Rectangle2D(getPositionX() * defaultX, getPositionY() * defaultY, getWidthHeight(), getWidthHeight());
-    }
-
-    //gettery i settery takie same zawsze
+    //gettery i settery
     public int getPositionX() {
         return positionX;
     }
 
+    //ustawianie X sprawdza czy na tym miejscu nie znajduje się przypadkiem ściana
     public void setPositionX(int positionX) {
         for (AbstractBlock ab : getBlocks())
-            if (ab.getBlocksId() != BlocksId.BackgroundBlock)
-                if (ab.getPositionX() == positionX && ab.getPositionY() == getPositionY())
+            if (ab.getBlocksId() != BlocksId.BackgroundBlock && ab.getBlocksId() != BlocksId.PathBlock)
+                if (ab.getPositionX() == positionX && ab.getPositionY() == getPositionY()) {
                     return;
+                }
         this.positionX = positionX;
     }
 
@@ -85,19 +89,23 @@ public abstract class AbstractBlock {
         this.color = color;
     }
 
-    public int getWidthHeight() {
-        return widthHeight;
-    }
-
-    public int getStep() {
-        return step;
-    }
-
     public ArrayList<AbstractBlock> getBlocks() {
         return blocks;
     }
 
-    public Vertex getV() {
-        return v;
+    public boolean isToDelete() {
+        return toDelete;
+    }
+
+    public void setToDelete(boolean toDelete) {
+        this.toDelete = toDelete;
+    }
+
+    public aStarNode getNode() {
+        return node;
+    }
+
+    public void setNode(aStarNode node) {
+        this.node = node;
     }
 }
