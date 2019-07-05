@@ -52,8 +52,13 @@ public class Game extends Application {
         //obsługa zdarzeń z klawiatury
         scene.addEventHandler(KeyEvent.KEY_PRESSED, (key) -> {
             KeyCode e = key.getCode();
+            //wyjście z gry
             if (e == KeyCode.ESCAPE) System.exit(0);
 
+            //zaatakowanie
+            if(e == KeyCode.Z) player.attack();
+
+            //poruszanie się
             if (ableToMove) {
                 switch (e) {
                     case UP: {
@@ -78,7 +83,7 @@ public class Game extends Application {
         });
         scene.addEventHandler(KeyEvent.KEY_RELEASED, (key) -> {
             KeyCode e = key.getCode();
-            if (e == KeyCode.UP || e == KeyCode.DOWN || e == KeyCode.RIGHT || e == KeyCode.LEFT) {
+            if (e == KeyCode.UP || e == KeyCode.DOWN || e == KeyCode.RIGHT || e == KeyCode.LEFT || e == KeyCode.Z) {
                 ableToMove = true;
             }
         });
@@ -92,8 +97,8 @@ public class Game extends Application {
 
         //możliwość ustawienia ilości klatek na seundę
         KeyFrame kf = new KeyFrame(
-                //Duration.seconds(0.0166666),                // 60 FPS
-                Duration.seconds(0.033333),                // 30 FPS
+                Duration.seconds(0.0166666),                // 60 FPS
+                //Duration.seconds(0.033333),                // 30 FPS
                 ae -> update());
 
         gameLoop.getKeyFrames().add(kf);
@@ -109,7 +114,7 @@ public class Game extends Application {
     //inicjalizowanie najważniejszych obiektów
     private void initializeImportantObjects() {
         handler = new Handler();
-        player = new PlayerBlock(10, 2, BlocksId.PlayerBlock, handler);
+        player = new PlayerBlock(10, 2, 0,255,0,BlocksId.PlayerBlock, handler.getObjectsList(),handler.getAdditionalObjects(), handler.getBlocksMatrix());
         handler.addElement(player);
         LevelMaker.makeDefaultLevel(handler);
         handler.removeElement(player);

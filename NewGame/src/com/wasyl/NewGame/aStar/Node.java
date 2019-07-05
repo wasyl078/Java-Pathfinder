@@ -1,6 +1,8 @@
 package com.wasyl.NewGame.aStar;
 
-public class aStarNode {
+import java.util.Objects;
+
+public class Node {
 
     //kilka ważnych zmiennych na podstawie, których można wykonać a*
     //koordynaty x i y
@@ -14,46 +16,46 @@ public class aStarNode {
     private double gScore;
     private double hScore;
     private double fScore;
-    private aStarNode parentNode;
+    private Node parentNode;
     private boolean obstraction;
 
     //konstruktor, te trzy zmienne definiują każdego node'a
-    public aStarNode(int x, int y, boolean obstraction) {
+    public Node(int x, int y, boolean obstraction) {
         this.x = x;
         this.y = y;
         this.obstraction = obstraction;
     }
 
     //gettery i settery
-    public double getgScore() {
+    double getgScore() {
         return gScore;
     }
 
-    public void setgScore(double gScore) {
+    void setgScore(double gScore) {
         this.gScore = gScore;
     }
 
-    public double gethScore() {
+    double gethScore() {
         return hScore;
     }
 
-    public void sethScore(double hScore) {
+    void sethScore(double hScore) {
         this.hScore = hScore;
     }
 
-    public double getfScore() {
+    double getfScore() {
         return fScore;
     }
 
-    public void setfScore(double fScore) {
+    void setfScore(double fScore) {
         this.fScore = fScore;
     }
 
-    public aStarNode getParentNode() {
+    Node getParentNode() {
         return parentNode;
     }
 
-    public void setParentNode(aStarNode parentNode) {
+    void setParentNode(Node parentNode) {
         this.parentNode = parentNode;
     }
 
@@ -65,7 +67,24 @@ public class aStarNode {
         return y;
     }
 
-    public boolean isObstraction() {
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Node node = (Node) o;
+
+        boolean xxVyy = getX() == node.getX() && getY() == node.getY();
+        boolean yyVxx = getY() == node.getX() && getX() == node.getY();
+
+        return xxVyy || yyVxx;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(getX(), getY());
+    }
+
+    boolean isObstraction() {
         return obstraction;
     }
 }

@@ -1,10 +1,8 @@
 package com.wasyl.NewGame.Blocks;
 
 import com.wasyl.NewGame.Framework.Game;
-import com.wasyl.NewGame.Framework.Handler;
-import com.wasyl.NewGame.aStar.aStarNode;
+import com.wasyl.NewGame.aStar.Node;
 import javafx.scene.canvas.GraphicsContext;
-import javafx.scene.paint.Color;
 
 import java.util.ArrayList;
 
@@ -17,40 +15,53 @@ public abstract class AbstractBlock {
     static final int X_SIDE_OF_BLOCK = 25 * Game.SCREEN_WIDTH / 1600;
     static final int Y_SIDE_OF_BLOCK = 25 * Game.SCREEN_HEIGHT / 900;
 
-    //zmienne prywatbe dla każdego bloku definiującego jego egzystencje
+    //zmienne prywatne dla każdego bloku definiującego pozycje i stan
     private int positionX;
     private int positionY;
     private BlocksId blocksId;
-    private Color color;
+    private double healthPoints;
+    private double maxHP;
+
+    //zmienne prywatne definiujące jego kolor
+    private int red;
+    private int green;
+    private int blue;
+    private double alpha;
 
     //zmienne prywatne dla każdego bloku zawierające elementy niezbędne do pracy nad nim
     private ArrayList<AbstractBlock> objects;
-    private AbstractBlock[][] blocks;
-    private aStarNode node;
+    private AbstractBlock[][] blocksMatrix;
+    private Node node;
+    private ArrayList<AbstractBlock>additionalObjects;
 
     //konstruktor domyślny, definiuje stan bloku
-    public AbstractBlock(int positionX, int positionY, BlocksId blocksId, Handler handler) {
+    AbstractBlock(int positionX, int positionY, int red, int green, int blue, int maxHP, BlocksId blocksId, ArrayList<AbstractBlock> objects, ArrayList<AbstractBlock> additionalObjects,AbstractBlock[][] blocksMatrix) {
         this.blocksId = blocksId;
         this.positionX = positionX;
         this.positionY = positionY;
-        this.blocks = handler.getBlocksMatrix();
-        this.objects = handler.getObjectsList();
-        this.node = new aStarNode(positionX, 35 - positionY, blocksId == BlocksId.WallBlock);
+        this.maxHP = maxHP;
+        this.healthPoints = maxHP;
+        this.blocksMatrix = blocksMatrix;
+        this.objects = objects;
+        this.node = new Node(positionX, 35 - positionY, blocksId == BlocksId.WallBlock);
+        this.red = red;
+        this.green = green;
+        this.blue = blue;
+        this.alpha = 1f;
+        this.additionalObjects = additionalObjects;
     }
 
     //update() - należy ją nadpisać - służy do aktualizowanai stanu bloku przy każdej klatce
-    public abstract void update(ArrayList<AbstractBlock> objects);
+    public abstract void update();
 
     //updateNode() - pomocnicza metoda do aktualizowania stanu odpowiadającego blokowi node'a
     public void updateNode() {
-        this.node = new aStarNode(positionX, Game.VERTICAL_NUMBER_OF_BLOCKS - 1 - positionY, blocksId == BlocksId.WallBlock);
+        if (node != null)
+            this.node = new Node(positionX, Game.VERTICAL_NUMBER_OF_BLOCKS - 1 - positionY, blocksId == BlocksId.WallBlock);
     }
 
-    //draw() - tylko wyświetla każdy blok w odpowiednim miejscu w oknie
-    public void draw(GraphicsContext gc) {
-        gc.setFill(getColor());
-        gc.fillRect(getPositionX() * DEFAULT_X, getPositionY() * DEFAULT_Y, X_SIDE_OF_BLOCK, Y_SIDE_OF_BLOCK);
-    }
+    //draw() - tylko wyświetla każdy blok / kształt w odpowiednim miejscu w oknie
+    public abstract void draw(GraphicsContext gc);
 
     //gettery i settery
     public int getPositionX() {
@@ -65,11 +76,12 @@ public abstract class AbstractBlock {
             return;
 
         //sprawdzenie przypadków gdy docelowy blok jest ścianą lub innym ruchomym obiektem
-        if (blocks[positionX][Game.VERTICAL_NUMBER_OF_BLOCKS - 1 - positionY].getBlocksId() != BlocksId.WallBlock) {
+        if (blocksMatrix[positionX][Game.VERTICAL_NUMBER_OF_BLOCKS - 1 - positionY].getBlocksId() != BlocksId.WallBlock) {
             for (AbstractBlock ab : objects)
                 if (ab.getPositionX() == positionX && ab.getPositionY() == positionY)
                     if (ab != this)
                         return;
+            makeOldBLock();
             this.positionX = positionX;
         }
     }
@@ -85,36 +97,86 @@ public abstract class AbstractBlock {
             return;
 
         //sprawdzenie przypadków gdy docelowy blok jest ścianą lub innym ruchomym obiektem
-        if (blocks[positionX][Game.VERTICAL_NUMBER_OF_BLOCKS - 1 - positionY].getBlocksId() != BlocksId.WallBlock) {
+        if (blocksMatrix[positionX][Game.VERTICAL_NUMBER_OF_BLOCKS - 1 - positionY].getBlocksId() != BlocksId.WallBlock) {
             for (AbstractBlock ab : objects)
                 if (ab.getPositionX() == positionX && ab.getPositionY() == positionY)
                     if (ab != this)
                         return;
+
+            makeOldBLock();
             this.positionY = positionY;
+
         }
     }
 
+    //metoda do tworzenia "smugi za poruszającymi się blokami"
+    private void makeOldBLock() {
+        OldBlock newBlock = new OldBlock(positionX, positionY, red, green, blue, blocksId, objects,additionalObjects, blocksMatrix);
+        additionalObjects.add(newBlock);
+    }
+
+    //gettery  settery
     public BlocksId getBlocksId() {
         return blocksId;
     }
 
-    public Color getColor() {
-        return color;
+    AbstractBlock[][] getBlocksMatrix() {
+        return this.blocksMatrix;
     }
 
-    public void setColor(Color color) {
-        this.color = color;
+    ArrayList<AbstractBlock> getObjects() {
+        return objects;
     }
 
-    public AbstractBlock[][] getBlocks() {
-        return this.blocks;
-    }
-
-    public aStarNode getNode() {
+    public Node getNode() {
         return node;
     }
 
-    public void setNode(aStarNode node) {
-        this.node = node;
+    public double getHealthPoints() {
+        return healthPoints;
+    }
+
+    void addHealthPoints(double howMany) {
+        this.healthPoints += howMany;
+    }
+
+    double getAlpha() {
+        return alpha;
+    }
+
+    void setAlpha(double alpha) {
+        this.alpha = alpha;
+    }
+
+    double getMaxHP() {
+        return maxHP;
+    }
+
+    int getRed() {
+        return red;
+    }
+
+    public void setRed(int red) {
+        this.red = red;
+    }
+
+    int getGreen() {
+        return green;
+    }
+
+    public void setGreen(int green) {
+        this.green = green;
+    }
+
+    int getBlue() {
+        return blue;
+    }
+
+    public void setBlue(int blue) {
+        this.blue = blue;
+    }
+
+    public ArrayList<AbstractBlock> getAdditionalObjects() {
+        return additionalObjects;
     }
 }

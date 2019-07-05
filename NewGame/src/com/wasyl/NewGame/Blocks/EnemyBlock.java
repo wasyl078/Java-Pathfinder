@@ -1,7 +1,7 @@
 package com.wasyl.NewGame.Blocks;
 
-import com.wasyl.NewGame.Framework.Handler;
-import com.wasyl.NewGame.aStar.aStarNode;
+import com.wasyl.NewGame.aStar.Graph;
+import com.wasyl.NewGame.aStar.Node;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.paint.Color;
 
@@ -15,68 +15,72 @@ public class EnemyBlock extends AbstractBlock {
     private PlayerBlock player;
     private int counter = 0;
     private int refresh = 0;
-    private Handler handler;
+    private Graph starGraph;
     private ArrayList<AbstractBlock> path;
 
     //konstruktor
-    public EnemyBlock(int positionX, int positionY, BlocksId blocksId, Handler handler) {
-        super(positionX, positionY, blocksId, handler);
-        setColor(Color.RED);
-        this.handler = handler;
+    public EnemyBlock(int positionX, int positionY,int red, int green, int blue,  BlocksId blocksId, ArrayList<AbstractBlock> objects,ArrayList<AbstractBlock> additionalObjects,AbstractBlock[][] blocksMatrix) {
+        super(positionX, positionY, red, green, blue, 100, blocksId, objects, additionalObjects,blocksMatrix);
         path = new ArrayList<>();
+        //przeciwnicy mają zwykle 100 punktów zdrowia
     }
 
     //nadpisanie update() - aktualizacja najkrótszej ścieżki do gracza - path
     @Override
-    public void update(ArrayList<AbstractBlock> objects) {
+    public void update() {
         counter++;
         refresh++;
 
+        //aktualizowanie najkrótszej ścieżki
         if (refresh >= 10) {
             calculateSSTF();
             refresh = 0;
         }
 
+        //aktualizowanie pozycji przeciwnika na podstawie najkrótszej ścieżki
         if (counter >= 10 && path.size() > 0) {
-            for (int i = 0; i < path.size(); i++)
-                System.out.println((i + 1) + ". " + path.get(i).getNode().getX() + "x" + path.get(i).getNode().getY());
             setPositionX(path.get(path.size() - 1).getPositionX());
             setPositionY(path.get(path.size() - 1).getPositionY());
             path.remove(path.size() - 1);
             counter = 0;
         }
-
     }
 
     //malowanie bloku przeciwnika oraz bloków ścieżki
     @Override
     public void draw(GraphicsContext gc) {
-        gc.setFill(Color.BLUE);
 
+        //malowanie i obsługa stanu ścieżki
         Iterator iter = path.iterator();
         while (iter.hasNext()) {
             AbstractBlock ab = (AbstractBlock) iter.next();
-            gc.fillOval(ab.getPositionX() * DEFAULT_X + 5, ab.getPositionY() * DEFAULT_Y + 5, AbstractBlock.X_SIDE_OF_BLOCK / 5, AbstractBlock.Y_SIDE_OF_BLOCK / 5);
-            if (((PathBlock) ab).getLiveTime() < 0)
+            ab.draw(gc);
+            if (ab.getHealthPoints() < 0)
                 iter.remove();
         }
 
-        gc.setFill(getColor());
-        gc.fillRect(getPositionX() * DEFAULT_X, getPositionY() * DEFAULT_Y, AbstractBlock.Y_SIDE_OF_BLOCK, AbstractBlock.Y_SIDE_OF_BLOCK);
+        //malowanie przeciwnika
+        gc.setFill(Color.rgb(getRed(),getGreen(),getBlue(),getAlpha()));
+        gc.fillRect(getPositionX() * DEFAULT_X, getPositionY() * DEFAULT_Y, X_SIDE_OF_BLOCK, Y_SIDE_OF_BLOCK);
     }
 
     //wywołanie obliczenia najkrótszej ścieżki od bloku do gracza
-    public void calculateSSTF() {
-        ArrayList<aStarNode> nodesPath = handler.getStarGraph().generateAStarPath(this.getNode(), player.getNode());
+    private void calculateSSTF() {
+        ArrayList<Node> nodesPath = starGraph.generateAStarPath(this.getNode(), player.getNode());
         this.path.clear();
-        for (aStarNode node : nodesPath)
-            path.add(new PathBlock(node.getX(), 35 - node.getY(), BlocksId.PathBlock, handler));
+        for (Node node : nodesPath)
+            path.add(new PathBlock(node.getX(), 35 - node.getY(), 0,0,255,BlocksId.PathBlock, getObjects(),getAdditionalObjects(),getBlocksMatrix()));
     }
 
     //setter gracza
     public void setPlayer() {
-        for (AbstractBlock ab : handler.getObjectsList())
+        for (AbstractBlock ab : getObjects())
             if (ab.getBlocksId() == BlocksId.PlayerBlock)
                 this.player = (PlayerBlock) ab;
+    }
+
+    //setter Graph'u
+    public void setaAstarGraph(Graph graph){
+        this.starGraph = graph;
     }
 }

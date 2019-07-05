@@ -1,52 +1,98 @@
 package com.wasyl.NewGame.Framework;
 
 import com.wasyl.NewGame.Blocks.AbstractBlock;
+import com.wasyl.NewGame.Blocks.BackgroundBlock;
 import com.wasyl.NewGame.Blocks.BlocksId;
-import com.wasyl.NewGame.aStar.aStarGraph;
+import com.wasyl.NewGame.aStar.Graph;
 import javafx.scene.canvas.GraphicsContext;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 
 //klasa Handler służy do wywoływania aktualizowania wszystkich bloków
 public class Handler {
 
-    //lista wszystkich obiektów, które trzeba aktualizować oraz macierz planszy
+    //lista wszystkich obiektów,dodatkowych obiektów, które trzeba aktualizować oraz macierz planszy
     private ArrayList<AbstractBlock> objects;
+    private ArrayList<AbstractBlock> additionalObjects;
     private AbstractBlock[][] blocksMatrix;
 
     //graf mapy
-    private aStarGraph starGraph;
+    private Graph starGraph;
 
     //konstruktor, który tworzy pustą listę bloków
-    public Handler() {
+    Handler() {
         blocksMatrix = new AbstractBlock[64][36];
         objects = new ArrayList<>();
+        additionalObjects = new ArrayList<>();
     }
 
     //aktualizowanie wszystkich obiektów
     void update() {
-        for (AbstractBlock ab : objects) {
-            ab.update(objects);
+
+        //zmienna removed służy do sygnalizowania czy została jakaś zmiana przeprowadzona w rozkładzie planszy
+        // jeśli tak to będzie aktualizowany starGraph
+        boolean removed = false;
+
+        Iterator iter = objects.iterator();
+        while (iter.hasNext()) {
+            AbstractBlock ab = (AbstractBlock) iter.next();
+            ab.update();
             ab.updateNode();
+            //sprawdza za każdym razem czy dany objekt ma wystarczającą liczbę punktów życia
+            if (ab.getHealthPoints() <= 0) {
+                removed = true;
+                iter.remove();
+            }
         }
+        //w przypadku gdy zaszła jakaś zmiana
+        if (removed)
+            starGraph.createNodesMatrix(this);
+
         //wystarczy aktualizować tylko ruchome elementy
         // plansza nie musi być aktualizowana
+
+        //w przypadku gdyby były jakieś dodatkowe obiekty (np. smuga)
+        Iterator addIter = additionalObjects.iterator();
+        while (addIter.hasNext()) {
+            AbstractBlock ab = (AbstractBlock) addIter.next();
+            ab.update();
+            //sprawdza za każdym razem czy dany objekt ma wystarczającą liczbę punktów życia
+            if (ab.getHealthPoints() <= 0)
+                addIter.remove();
+        }
     }
 
     //rysowanie wszystkich obiektów i całej planszy
     public void draw(GraphicsContext gc) {
         //plansza
         for (int x = 0; x < Game.HORIZONTAL_NUMBER_OF_BLOCKS; x++)
-            for (int y = 0; y < Game.VERTICAL_NUMBER_OF_BLOCKS; y++)
-                blocksMatrix[x][y].draw(gc);
+            for (int y = 0; y < Game.VERTICAL_NUMBER_OF_BLOCKS; y++) {
+                AbstractBlock currentBlock = blocksMatrix[x][y];
+                //sprawdza za każdym razem czy dany blok planszy ma wystarczjąco dużo hp żeby dalej istnieć
+                // jeżeli ściana będzie miała 0 lub mniej HP to zamieni się w BackgrounBlock'a
+                if (currentBlock.getHealthPoints() <= 0)
+                    blocksMatrix[x][y] = new BackgroundBlock(currentBlock.getPositionX(), currentBlock.getPositionY(), 0, 0, 0, BlocksId.BackgroundBlock, getObjectsList(),getAdditionalObjects(), getBlocksMatrix());
+                currentBlock.draw(gc);
+            }
 
         //obiekty ruchome
         for (AbstractBlock ab : objects)
             ab.draw(gc);
+
+        //dodatkowe obiekty
+        for (AbstractBlock ab : additionalObjects)
+            ab.draw(gc);
+    }
+
+    //metoda służąca wywołuniu tworzenia aStarGraphu
+    void makeaAstarGraph() {
+        //utworzenie Graph'u na podstawie tej planszy
+        this.starGraph = new Graph(this);
     }
 
     //dodawanie bloków lub ruchomych obiektów
-    public void addElement(AbstractBlock ab) {
+    void addElement(AbstractBlock ab) {
         //jeżeli dodawanym elementem jest część planszy
         if (ab.getBlocksId() == BlocksId.BackgroundBlock || ab.getBlocksId() == BlocksId.WallBlock)
             blocksMatrix[ab.getNode().getX()][ab.getNode().getY()] = ab;
@@ -55,7 +101,7 @@ public class Handler {
     }
 
     //usuwanie bloków lub ruchomych obiektów
-    public void removeElement(AbstractBlock ab) {
+    void removeElement(AbstractBlock ab) {
         //jeżeli usuwany element jest część planszy
         if (ab.getBlocksId() == BlocksId.BackgroundBlock || ab.getBlocksId() == BlocksId.WallBlock)
             blocksMatrix[ab.getNode().getX()][ab.getNode().getY()] = null;
@@ -63,20 +109,20 @@ public class Handler {
         else objects.remove(ab);
     }
 
-    //getter do listy bloków
-    public ArrayList<AbstractBlock> getObjectsList() {
+    //gettery
+    ArrayList<AbstractBlock> getObjectsList() {
         return this.objects;
     }
 
-    public AbstractBlock[][] getBlocksMatrix(){
+    public AbstractBlock[][] getBlocksMatrix() {
         return this.blocksMatrix;
     }
 
-    public aStarGraph getStarGraph() {
+    Graph getStarGraph() {
         return starGraph;
     }
 
-    public void setStarGraph(aStarGraph starGraph) {
-        this.starGraph = starGraph;
+    public ArrayList<AbstractBlock> getAdditionalObjects() {
+        return additionalObjects;
     }
 }
