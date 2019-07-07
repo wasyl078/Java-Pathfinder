@@ -3,15 +3,13 @@ package com.wasyl.NewGame.Blocks;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.paint.Color;
 
-import java.util.ArrayList;
-
 //to tylko blok dawnej ścieżki - ma różne kolory, zmienia swoją alphe z każdym update'm i umiera szybko
 public class OldBlock extends AbstractBlock{
 
     private final double SELF_HARM_POINTS = 0.333;
 
-    public OldBlock(int positionX, int positionY, int red, int green, int blue, BlocksId blocksId, ArrayList<AbstractBlock> objects,ArrayList<AbstractBlock> additionalObjects, AbstractBlock[][] blocksMatrix) {
-        super(positionX, positionY, red, green, blue, 10, blocksId, objects, additionalObjects,blocksMatrix);
+    public OldBlock(int positionX, int positionY, int red, int green, int blue, BlocksId blocksId) {
+        super(positionX, positionY, red, green, blue, 10, blocksId, null);
     }
 
     @Override

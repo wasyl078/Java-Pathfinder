@@ -73,10 +73,15 @@ public class Node {
         if (o == null || getClass() != o.getClass()) return false;
         Node node = (Node) o;
 
-        boolean xxVyy = getX() == node.getX() && getY() == node.getY();
-        boolean yyVxx = getY() == node.getX() && getX() == node.getY();
+        return getX() == node.getX() && getY() == node.getY();
+    }
 
-        return xxVyy || yyVxx;
+    public void setX(int x) {
+        this.x = x;
+    }
+
+    public void setY(int y) {
+        this.y = y;
     }
 
     @Override

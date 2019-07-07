@@ -1,6 +1,8 @@
 package com.wasyl.NewGame.aStar;
 
 import com.wasyl.NewGame.Blocks.AbstractBlock;
+import com.wasyl.NewGame.Blocks.BackgroundBlock;
+import com.wasyl.NewGame.Blocks.BlocksId;
 import com.wasyl.NewGame.Framework.Game;
 import com.wasyl.NewGame.Framework.Handler;
 
@@ -16,11 +18,13 @@ public class Graph {
     private HashSet<Node> closedSet;
     private HashSet<Node> openSet;
     private Node[][] nodes;
+    private Handler handler;
 
     //konstruktor wywołyjący metodę tworzącą macierz node'ów
     public Graph(Handler handler) {
         nodes = new Node[Game.HORIZONTAL_NUMBER_OF_BLOCKS][Game.VERTICAL_NUMBER_OF_BLOCKS];
         createNodesMatrix(handler);
+        this.handler = handler;
         this.closedSet = new HashSet<>();
         this.openSet = new HashSet<>();
     }
@@ -44,6 +48,7 @@ public class Graph {
         //blok gracza nie jest odpowiednim blokiem w tablicy
         // dlatego trzeba wziąć odpowiadający mu bloczek z tablicy
         goal = nodes[goal.getX()][goal.getY()];
+        if (goal == null) return new ArrayList<>();
 
         //wrzucamy do openSet'a sąsiadów startowego bloku
         // zawsze będzie się tylko bloki z openSet'a badać
@@ -150,13 +155,13 @@ public class Graph {
         int x = node.getX();
         int y = node.getY();
         //góra lewo
-        if (x > 0 && y < 35 && (nodes[x - 1][y + 1] != null))
+        if (x > 0 && y < Game.VERTICAL_NUMBER_OF_BLOCKS - 1 && (nodes[x - 1][y + 1] != null))
             neighbours.add(nodes[x - 1][y + 1]);
         //góra
-        if (y < 35 && (nodes[x][y + 1] != null))
+        if (y < Game.VERTICAL_NUMBER_OF_BLOCKS - 1 && (nodes[x][y + 1] != null))
             neighbours.add(nodes[x][y + 1]);
         //góra prawo
-        if (x < 63 && y < 35 && (nodes[x + 1][y + 1] != null))
+        if (x < Game.HORIZONTAL_NUMBER_OF_BLOCKS - 1 && y < Game.VERTICAL_NUMBER_OF_BLOCKS - 1 && (nodes[x + 1][y + 1] != null))
             neighbours.add(nodes[x + 1][y + 1]);
         //dól lewo
         if (x > 0 && y > 0 && (nodes[x - 1][y - 1] != null))
@@ -165,13 +170,13 @@ public class Graph {
         if (y > 0 && (nodes[x][y - 1] != null))
             neighbours.add(nodes[x][y - 1]);
         //dól prawo
-        if (x < 63 && y > 0 && (nodes[x + 1][y - 1] != null))
+        if (x < Game.HORIZONTAL_NUMBER_OF_BLOCKS - 1 && y > 0 && (nodes[x + 1][y - 1] != null))
             neighbours.add(nodes[x + 1][y - 1]);
         //lewo
         if (x > 0 && (nodes[x - 1][y] != null))
             neighbours.add(nodes[x - 1][y]);
         //prawo
-        if (x < 63 && (nodes[x + 1][y] != null)) {
+        if (x < Game.HORIZONTAL_NUMBER_OF_BLOCKS - 1 && (nodes[x + 1][y] != null)) {
             neighbours.add(nodes[x + 1][y]);
         }
         return neighbours;
@@ -185,41 +190,20 @@ public class Graph {
     }
 
     //metoda do stworzenia losoweggo labiruntu przy pomocy algorytmu Prima
-    public void generatePrimsMaze() {
+    public ArrayList<BackgroundBlock> generatePrimsMaze() {
 
         ArrayList<Node> maze = new ArrayList<>();
-        ArrayList<Node> walls = new ArrayList<>();
+        HashSet<Edge> walls = new HashSet<>();
+        HashSet<Edge> passages = new HashSet<>();
 
         //stworzenie wierzchołków
-        HashSet<Node> nodesSet = new HashSet<>();
         Node[][] nodes = new Node[Game.HORIZONTAL_NUMBER_OF_BLOCKS][Game.VERTICAL_NUMBER_OF_BLOCKS];
         for (int x = 0; x < Game.HORIZONTAL_NUMBER_OF_BLOCKS; x++)
-            for (int y = 0; y < Game.VERTICAL_NUMBER_OF_BLOCKS; y++) {
+            for (int y = 0; y < Game.VERTICAL_NUMBER_OF_BLOCKS; y++)
                 nodes[x][y] = new Node(x, y, false);
-                nodesSet.add(nodes[x][y]);
-            }
 
         //stworzenie krawędzi
-        HashSet<Edge> edgesSet = new HashSet<>();
-        for (int x = 0; x < Game.HORIZONTAL_NUMBER_OF_BLOCKS; x++) {
-            for (int y = 0; y < Game.VERTICAL_NUMBER_OF_BLOCKS; y++) {
-
-                ArrayList<Edge> edges = new ArrayList<>();
-                //góra
-                if (y < Game.VERTICAL_NUMBER_OF_BLOCKS - 1)
-                    edges.add(new Edge(nodes[x][y], nodes[x][y + 1]));
-                //dół
-                if (y > 0)
-                    edges.add(new Edge(nodes[x][y], nodes[x][y - 1]));
-                //lewo
-                if (x > 0)
-                    edges.add(new Edge(nodes[x][y], nodes[x - 1][y]));
-                //prawo
-                if (x < Game.HORIZONTAL_NUMBER_OF_BLOCKS - 1)
-                    edges.add(new Edge(nodes[x][y], nodes[x + 1][y]));
-                edgesSet.addAll(edges);
-            }
-        }//TODO trochę trzeba pozmieniać sam graf i krawędzie
+        HashSet<Edge> edgesSet = createEdgesSet(nodes);
 
         //wybranie początkowego miejsca
         Node start = nodes[0][0];
@@ -230,15 +214,97 @@ public class Graph {
         //dodanie jej ścianek do listy ścianek
         walls.addAll(neighboursOf(start, edgesSet));
 
+        int time = 0;
         //dopóki są ścianki w liście ścianek
+        while (!walls.isEmpty()) {
+            time++;
+            //wybranie ścianki o najmniejszej wadze z set'u ścian
+            Edge randomWall = null;
+            int minWeight = Integer.MAX_VALUE;
+            for (Edge e : walls) {
+                if (e.getWeight() < minWeight) {
+                    randomWall = e;
+                    minWeight = e.getWeight();
+                }
+            }
+            //sprawdzenie czy tylko jeden z node'ów tej ścianki był odwiedzony
+            if (maze.contains(randomWall.getNode1()) && maze.contains(randomWall.getNode2())) {
+                //znaczy że oba są
+            } else {
+                //znaczy, że tylko jeden jest -> dodanie ścianek tego nowego
+                randomWall.setTime(time);
+                passages.add(randomWall);
+                if (maze.contains(randomWall.getNode1())) {
+                    maze.add(randomWall.getNode2());
+                    walls.addAll(neighboursOf(randomWall.getNode2(), edgesSet));
+                } else {
+                    maze.add(randomWall.getNode1());
+                    walls.addAll(neighboursOf(randomWall.getNode1(), edgesSet));
+                }
+
+
+            }
+            //usunięcie ścianki z listy ścianek
+            walls.remove(randomWall);
+        }
+
+        return returnWallBlocksFromMaze(passages);
     }
 
-    //metoda zwracająca sąsiadów node'a
-    private ArrayList<Node> neighboursOf(Node node, HashSet<Edge> edges) {
-        ArrayList<Node> neighbours = new ArrayList<>();
+    //metoda tworząca w odpowiedni sposób set krawędzi
+    private HashSet<Edge> createEdgesSet(Node[][] nodes) {
+        //ustawienie odpowiednich ilość poziomych i pionowych krawędzi
+        int xLength = Game.HORIZONTAL_NUMBER_OF_BLOCKS / 2;
+        int yLength = Game.VERTICAL_NUMBER_OF_BLOCKS / 2;
+
+        HashSet<Edge> edgeHashSet = new HashSet<>();
+        for (int x = 0; x < xLength; x++) {
+            for (int y = 0; y < yLength; y++) {
+                //losowa waga krawędzi
+                int randomWeight = (int) (Math.random() * 10);
+
+                //prawo
+                if (2 * x < xLength * 2 - 2)
+                    edgeHashSet.add(new Edge(nodes[2 * x][2 * y], nodes[2 * x + 2][2 * y], randomWeight));
+                //góra
+                if (2 * y < yLength * 2 - 2)
+                    edgeHashSet.add(new Edge(nodes[2 * x][2 * y], nodes[2 * x][2 * y + 2], randomWeight));
+
+            }
+        }
+
+        return edgeHashSet;
+    }
+
+    //metoda przetłumaczająca passage'sy na abstractBlocki
+    private ArrayList<BackgroundBlock> returnWallBlocksFromMaze(HashSet<Edge> passages) {
+        ArrayList<BackgroundBlock> blocks = new ArrayList<>();
+        for (Edge e : passages) {
+            Node n1 = e.getNode1();
+            Node n2 = e.getNode2();
+            //bloki nodów będą ściankami
+            BackgroundBlock wb1 = new BackgroundBlock(n1.getX(), Game.VERTICAL_NUMBER_OF_BLOCKS - 1 - n1.getY(), 0, 0, 0, BlocksId.BackgroundBlock);
+            BackgroundBlock wb2 = new BackgroundBlock(n2.getX(), Game.VERTICAL_NUMBER_OF_BLOCKS - 1 - n2.getY(), 0, 0, 0, BlocksId.BackgroundBlock);
+            //blok z node'a między blokami wb1 i wb2
+            int x = (n1.getX() + n2.getX()) / 2;
+            int y = (Game.VERTICAL_NUMBER_OF_BLOCKS - 1 - n1.getY() + Game.VERTICAL_NUMBER_OF_BLOCKS - 1 - n2.getY()) / 2;
+            BackgroundBlock wb3 = new BackgroundBlock(x, y, 0, 0, 0, BlocksId.BackgroundBlock);
+            wb1.setTime(e.getTime());
+            wb2.setTime(e.getTime());
+            wb3.setTime(e.getTime());
+            blocks.add(wb1);
+            blocks.add(wb2);
+            blocks.add(wb3);
+        }
+        return blocks;
+    }
+
+    //metoda zwracająca wall'e node'a
+    private ArrayList<Edge> neighboursOf(Node node, HashSet<Edge> edges) {
+        ArrayList<Edge> neighbours = new ArrayList<>();
         for (Edge e : edges)
             if (e.getNode1().equals(node) || e.getNode2().equals(node))
-                neighbours.add(node);
+                neighbours.add(e);
         return neighbours;
     }
 }

@@ -1,6 +1,7 @@
 package com.wasyl.NewGame.Blocks;
 
 import com.wasyl.NewGame.Framework.Game;
+import com.wasyl.NewGame.Framework.Handler;
 import com.wasyl.NewGame.aStar.Node;
 import javafx.scene.canvas.GraphicsContext;
 
@@ -10,10 +11,10 @@ import java.util.ArrayList;
 public abstract class AbstractBlock {
 
     //stałe globalne
-    static final int DEFAULT_X = 25 * Game.SCREEN_WIDTH / 1600;
-    static final int DEFAULT_Y = 25 * Game.SCREEN_HEIGHT / 900;
-    static final int X_SIDE_OF_BLOCK = 25 * Game.SCREEN_WIDTH / 1600;
-    static final int Y_SIDE_OF_BLOCK = 25 * Game.SCREEN_HEIGHT / 900;
+    static final int X_SIDE_OF_BLOCK = Game.SCREEN_WIDTH / Game.HORIZONTAL_NUMBER_OF_BLOCKS;
+    static final int Y_SIDE_OF_BLOCK = Game.SCREEN_HEIGHT / Game.VERTICAL_NUMBER_OF_BLOCKS;
+    static final int DEFAULT_X = X_SIDE_OF_BLOCK;
+    static final int DEFAULT_Y = Y_SIDE_OF_BLOCK;
 
     //zmienne prywatne dla każdego bloku definiującego pozycje i stan
     private int positionX;
@@ -32,23 +33,25 @@ public abstract class AbstractBlock {
     private ArrayList<AbstractBlock> objects;
     private AbstractBlock[][] blocksMatrix;
     private Node node;
-    private ArrayList<AbstractBlock>additionalObjects;
+    private ArrayList<AbstractBlock> additionalObjects;
 
     //konstruktor domyślny, definiuje stan bloku
-    AbstractBlock(int positionX, int positionY, int red, int green, int blue, int maxHP, BlocksId blocksId, ArrayList<AbstractBlock> objects, ArrayList<AbstractBlock> additionalObjects,AbstractBlock[][] blocksMatrix) {
+    AbstractBlock(int positionX, int positionY, int red, int green, int blue, int maxHP, BlocksId blocksId, Handler handler) {
         this.blocksId = blocksId;
         this.positionX = positionX;
         this.positionY = positionY;
         this.maxHP = maxHP;
         this.healthPoints = maxHP;
-        this.blocksMatrix = blocksMatrix;
-        this.objects = objects;
-        this.node = new Node(positionX, 35 - positionY, blocksId == BlocksId.WallBlock);
+        this.node = new Node(positionX, Game.VERTICAL_NUMBER_OF_BLOCKS - 1 - positionY, blocksId == BlocksId.WallBlock);
         this.red = red;
         this.green = green;
         this.blue = blue;
         this.alpha = 1f;
-        this.additionalObjects = additionalObjects;
+        if (handler != null) {
+            this.blocksMatrix = handler.getBlocksMatrix();
+            this.objects = handler.getObjectsList();
+            this.additionalObjects = handler.getAdditionalObjects();
+        }
     }
 
     //update() - należy ją nadpisać - służy do aktualizowanai stanu bloku przy każdej klatce
@@ -111,7 +114,7 @@ public abstract class AbstractBlock {
 
     //metoda do tworzenia "smugi za poruszającymi się blokami"
     private void makeOldBLock() {
-        OldBlock newBlock = new OldBlock(positionX, positionY, red, green, blue, blocksId, objects,additionalObjects, blocksMatrix);
+        OldBlock newBlock = new OldBlock(positionX, positionY, red, green, blue, BlocksId.OldBlock);
         additionalObjects.add(newBlock);
     }
 

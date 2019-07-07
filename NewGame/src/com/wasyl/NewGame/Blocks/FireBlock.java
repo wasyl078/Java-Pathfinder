@@ -1,10 +1,9 @@
 package com.wasyl.NewGame.Blocks;
 
 import com.wasyl.NewGame.Framework.Game;
+import com.wasyl.NewGame.Framework.Handler;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.paint.Color;
-
-import java.util.ArrayList;
 
 //blok FireBlock to blok ataku - "ruchomy obiekt" jeżeli będzie znajdował się na jakimś
 // innym ruchomym obiekcie lub na ścianie to zabierze mu / jej kilka punktów zdrowia
@@ -19,8 +18,8 @@ public class FireBlock extends AbstractBlock {
     private int nPoints;
 
     //konstruktor bloku ataku
-    FireBlock(int positionX, int positionY, int red, int green, int blue, BlocksId blocksId, String direction, ArrayList<AbstractBlock> objects,ArrayList<AbstractBlock> additionalObjects, AbstractBlock[][] blocksMatrix) {
-        super(positionX, positionY, red, green, blue, 10, blocksId, objects,additionalObjects, blocksMatrix);
+    FireBlock(int positionX, int positionY, int red, int green, int blue, BlocksId blocksId, String direction, Handler handler) {
+        super(positionX, positionY, red, green, blue, 10, blocksId, handler);
         //10 punktów zdrowia - żeby po tym czasie zniknął
         makeTrianglePolygon(direction);
     }

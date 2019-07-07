@@ -1,22 +1,24 @@
 package com.wasyl.NewGame.Blocks;
 
 import com.wasyl.NewGame.Framework.Game;
+import com.wasyl.NewGame.Framework.Handler;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.paint.Color;
-
-import java.util.ArrayList;
 
 //blok gracza - możliwy do sterowania strzałkami
 public class PlayerBlock extends AbstractBlock {
 
     //countDown na atak - raz na dwie sekundy można zaatakować (przy 60fps'ach)
-    private final double DEFAULT_ATTACK_COUNTDOWN = 120;
+    private final double DEFAULT_ATTACK_COUNTDOWN = 20;
     private double actualAttackCountdown;
 
-    //konstruktor
-    public PlayerBlock(int positionX, int positionY, int red, int green, int blue, BlocksId blocksId, ArrayList<AbstractBlock> objects, ArrayList<AbstractBlock> additionalObjects, AbstractBlock[][] blocksMatrix) {
-        super(positionX, positionY, red, green, blue, 100, blocksId, objects, additionalObjects, blocksMatrix);
+    //potrzebuje handler'a żeby go przekazać do fireBlock'ów
+    private Handler handler;
 
+    //konstruktor
+    public PlayerBlock(int positionX, int positionY, int red, int green, int blue, BlocksId blocksId, Handler handler) {
+        super(positionX, positionY, red, green, blue, 100, blocksId, handler);
+        this.handler = handler;
         //gracz ma 100 punktów zdrowia
     }
 
@@ -32,7 +34,7 @@ public class PlayerBlock extends AbstractBlock {
         gc.setFill(Color.rgb(getRed(), getGreen(), getBlue(), getAlpha()));
         gc.fillRect(getPositionX() * DEFAULT_X, getPositionY() * DEFAULT_Y + Y_SIDE_OF_BLOCK * part, X_SIDE_OF_BLOCK, Y_SIDE_OF_BLOCK * (1 - part));
     }
-//TODO nowy kształt na countdown
+
     //tutaj można ewentualnie wypisywać aktualną pozycję gracza
     @Override
     public void update() {
@@ -51,19 +53,19 @@ public class PlayerBlock extends AbstractBlock {
         //atak w czterech kieunkach - sprawdza czy można w danym miejscu postawić nowy blok ataku
         //w góre
         if (getPositionY() > 0)
-            getObjects().add(new FireBlock(getPositionX(), getPositionY() - 1, 255, 255, 0, BlocksId.FireBlock, "UP", getObjects(), getAdditionalObjects(), getBlocksMatrix()));
+            getObjects().add(new FireBlock(getPositionX(), getPositionY() - 1, 255, 255, 0, BlocksId.FireBlock, "UP", handler));
 
         //w dół
         if (getPositionY() < Game.VERTICAL_NUMBER_OF_BLOCKS - 1)
-            getObjects().add(new FireBlock(getPositionX(), getPositionY() + 1, 255, 255, 0, BlocksId.FireBlock, "DOWN", getObjects(), getAdditionalObjects(), getBlocksMatrix()));
+            getObjects().add(new FireBlock(getPositionX(), getPositionY() + 1, 255, 255, 0, BlocksId.FireBlock, "DOWN", handler));
 
         //w lewo
         if (getPositionX() > 0)
-            getObjects().add(new FireBlock(getPositionX() - 1, getPositionY(), 255, 255, 0, BlocksId.FireBlock, "LEFT", getObjects(), getAdditionalObjects(), getBlocksMatrix()));
+            getObjects().add(new FireBlock(getPositionX() - 1, getPositionY(), 255, 255, 0, BlocksId.FireBlock, "LEFT", handler));
 
         //w prawo
         if (getPositionX() < Game.HORIZONTAL_NUMBER_OF_BLOCKS - 1)
-            getObjects().add(new FireBlock(getPositionX() + 1, getPositionY(), 255, 255, 0, BlocksId.FireBlock, "RIGHT", getObjects(), getAdditionalObjects(), getBlocksMatrix()));
+            getObjects().add(new FireBlock(getPositionX() + 1, getPositionY(), 255, 255, 0, BlocksId.FireBlock, "RIGHT", handler));
 
         actualAttackCountdown = DEFAULT_ATTACK_COUNTDOWN;
     }

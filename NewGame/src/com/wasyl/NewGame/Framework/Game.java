@@ -24,10 +24,8 @@ public class Game extends Application {
     private static Dimension SCREEN_SIZE = Toolkit.getDefaultToolkit().getScreenSize();
     public final static int SCREEN_WIDTH = (int)SCREEN_SIZE.getWidth();
     public final static int SCREEN_HEIGHT = (int)SCREEN_SIZE.getHeight();
-    //public final static int SCREEN_WIDTH = 1600;
-    //public final static int SCREEN_HEIGHT = 900;
     public final static int HORIZONTAL_NUMBER_OF_BLOCKS = 64;
-    public final static int VERTICAL_NUMBER_OF_BLOCKS = 36;
+    public final static int VERTICAL_NUMBER_OF_BLOCKS = 36;//96x54
     private Canvas canvas;
     private GraphicsContext gc;
 
@@ -114,13 +112,11 @@ public class Game extends Application {
     //inicjalizowanie najważniejszych obiektów
     private void initializeImportantObjects() {
         handler = new Handler();
-        player = new PlayerBlock(10, 2, 0,255,0,BlocksId.PlayerBlock, handler.getObjectsList(),handler.getAdditionalObjects(), handler.getBlocksMatrix());
-        handler.addElement(player);
-        LevelMaker.makeDefaultLevel(handler);
-        handler.removeElement(player);
-        handler.addElement(player);
+        player = new PlayerBlock(0, 0, 255,255,255,BlocksId.PlayerBlock, handler);
         canvas = new Canvas(SCREEN_WIDTH, SCREEN_HEIGHT);
         gc = canvas.getGraphicsContext2D();
+        //LevelMaker.makeFancyMaze(handler,gc,player);
+        LevelMaker.makePrimsMaze(handler, player);
     }
 
     //aktualizowanie i wyświetlanie obiektów

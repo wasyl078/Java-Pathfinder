@@ -3,14 +3,12 @@ package com.wasyl.NewGame.Blocks;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.paint.Color;
 
-import java.util.ArrayList;
-
 //blok ścieżki - niebieska kropka na bloku tła
 public class PathBlock extends AbstractBlock {
 
     //konstruktor
-    PathBlock(int positionX, int positionY, int red, int green, int blue, BlocksId blocksId, ArrayList<AbstractBlock> objects, ArrayList<AbstractBlock> additionalObjects, AbstractBlock[][] blocksMatrix) {
-        super(positionX, positionY, red, green, blue, 100, blocksId, objects, additionalObjects, blocksMatrix);
+    PathBlock(int positionX, int positionY, int red, int green, int blue, BlocksId blocksId) {
+        super(positionX, positionY, red, green, blue, 100, blocksId, null);
         //blok ścieżki ma zwykle 100 punktów zdrowia
     }
 

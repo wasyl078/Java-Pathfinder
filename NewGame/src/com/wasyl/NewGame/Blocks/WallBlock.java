@@ -1,16 +1,15 @@
 package com.wasyl.NewGame.Blocks;
 
+import com.wasyl.NewGame.Framework.Handler;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.paint.Color;
-
-import java.util.ArrayList;
 
 //blok ściany - nie można się na nim poruszać
 public class WallBlock extends AbstractBlock {
 
     //konstruktor
-    public WallBlock(int positionX, int positionY, int red, int green, int blue, BlocksId blocksId, ArrayList<AbstractBlock>objects,ArrayList<AbstractBlock> additionalObjects, AbstractBlock[][]blocksMatrix) {
-        super(positionX, positionY,red,green,blue,50, blocksId, objects, additionalObjects,blocksMatrix);
+    public WallBlock(int positionX, int positionY, int red, int green, int blue, BlocksId blocksId, Handler handler) {
+        super(positionX, positionY,red,green,blue,50, blocksId, handler);
         //ściana ma tylko 50 punktów zdrowia
     }
 
