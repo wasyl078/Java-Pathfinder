@@ -19,4 +19,4 @@ Thanks to my friends for supporting me in my IT adventure:
  [@Ukasz](https://github.com/Ukasz09), [@PanPawelRaper](https://github.com/PRZYPRAWA), [@Loszka](https://github.com/M1loseph)
  
  
- ![forthebadge](https://forthebadge.com/images/badges/built-with-love.svg) ![ForTheBadge built-with-swag](http://ForTheBadge.com/images/badges/built-with-swag.svg)
+ ![forthebadge](https://forthebadge.com/images/badges/built-with-love.svg) ![ForTheBadge built-with-swag](https://forthebadge.com/images/badges/made-with-java.svg)
