@@ -4,6 +4,7 @@ import com.wasyl.NewGame.Blocks.*;
 import javafx.scene.canvas.GraphicsContext;
 
 import java.util.ArrayList;
+import java.util.Random;
 
 //LevelMaker służy do utworzenia całej planszy oraz wroga (wrogów)
 class LevelMaker {
@@ -28,12 +29,12 @@ class LevelMaker {
 
     }
 
-    //metoda do stworzenia losowego poziomu przy wykorzystaniu algorytmu Prima
+    /**metoda do stworzenia losowego poziomu przy wykorzystaniu algorytmu Prima**/
     static void makePrimsMaze(Handler handler,PlayerBlock player) {
 
         for (int x = 0; x < Game.HORIZONTAL_NUMBER_OF_BLOCKS; x++)
             for (int y = 0; y < Game.VERTICAL_NUMBER_OF_BLOCKS; y++)
-                handler.addElement(new WallBlock(x, y, 100, 100, 100, BlocksId.WallBlock, handler));
+                handler.addElement(new WallBlock(x, y, 255, 255, 255, BlocksId.WallBlock, handler));
 
         handler.makeaAstarGraph();
 
@@ -62,11 +63,12 @@ class LevelMaker {
 
     }
 
-    //metoda do tworzenia w fancy sposób labiryntu
+    /**metoda do tworzenia w fancy sposób labiryntu**/
     static void makeFancyMaze(Handler handler, GraphicsContext gc,PlayerBlock player){
         for (int x = 0; x < Game.HORIZONTAL_NUMBER_OF_BLOCKS; x++)
-            for (int y = 0; y < Game.VERTICAL_NUMBER_OF_BLOCKS; y++)
-                handler.addElement(new WallBlock(x, y, 255, 255, 255, BlocksId.WallBlock, handler));
+            for (int y = 0; y < Game.VERTICAL_NUMBER_OF_BLOCKS; y++) {
+                handler.addElement(new WallBlock(x, y, 255,255,255, BlocksId.WallBlock, handler));
+            }
         handler.makeaAstarGraph();
 
         ArrayList<BackgroundBlock> maze = handler.getStarGraph().generatePrimsMaze();

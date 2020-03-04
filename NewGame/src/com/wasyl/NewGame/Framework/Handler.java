@@ -71,8 +71,10 @@ public class Handler {
                 AbstractBlock currentBlock = blocksMatrix[x][y];
                 //sprawdza za każdym razem czy dany blok planszy ma wystarczjąco dużo hp żeby dalej istnieć
                 // jeżeli ściana będzie miała 0 lub mniej HP to zamieni się w BackgrounBlock'a
-                if (currentBlock.getHealthPoints() < 0)
+                if (currentBlock.getHealthPoints() < 0) {
                     blocksMatrix[x][y] = new BackgroundBlock(currentBlock.getPositionX(), currentBlock.getPositionY(), 0, 0, 0, BlocksId.BackgroundBlock);
+                    starGraph.createNodesMatrix(this);
+                }
                 currentBlock.draw(gc);
             }
 

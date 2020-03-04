@@ -56,8 +56,11 @@ public class Game extends Application {
             //zaatakowanie
             if(e == KeyCode.Z) player.attack();
 
+            //bomba
+            if(e == KeyCode.X) player.plantBomb();
+
             //poruszanie się
-            if (ableToMove) {
+            if (ableToMove && player.getHealthPoints()>0) {
                 switch (e) {
                     case UP: {
                         player.setPositionY(player.getPositionY() - step);
@@ -81,7 +84,7 @@ public class Game extends Application {
         });
         scene.addEventHandler(KeyEvent.KEY_RELEASED, (key) -> {
             KeyCode e = key.getCode();
-            if (e == KeyCode.UP || e == KeyCode.DOWN || e == KeyCode.RIGHT || e == KeyCode.LEFT || e == KeyCode.Z) {
+            if (e == KeyCode.UP || e == KeyCode.DOWN || e == KeyCode.RIGHT || e == KeyCode.LEFT || e == KeyCode.Z || e == KeyCode.X) {
                 ableToMove = true;
             }
         });

@@ -12,6 +12,11 @@ public class PlayerBlock extends AbstractBlock {
     private final double DEFAULT_ATTACK_COUNTDOWN = 20;
     private double actualAttackCountdown;
 
+    //zmienne dotyczace dzilainia bomb
+    private int maxNumberOfBombs;
+    private int actualNumberOfBombs;
+    private int explosionBombPower;
+
     //potrzebuje handler'a żeby go przekazać do fireBlock'ów
     private Handler handler;
 
@@ -20,6 +25,8 @@ public class PlayerBlock extends AbstractBlock {
         super(positionX, positionY, red, green, blue, 100, blocksId, handler);
         this.handler = handler;
         //gracz ma 100 punktów zdrowia
+        maxNumberOfBombs = 10;
+        explosionBombPower = 3;
     }
 
     //pozycja gracza aktualizowana jest w klasie Game
@@ -69,4 +76,20 @@ public class PlayerBlock extends AbstractBlock {
 
         actualAttackCountdown = DEFAULT_ATTACK_COUNTDOWN;
     }
+
+    //metoda do plantowania bomby
+    public void plantBomb(){
+        if(actualNumberOfBombs<maxNumberOfBombs){
+            actualNumberOfBombs++;
+            handler.addElement(new BombBlock(getPositionX(),getPositionY(), BlocksId.BombBlock, explosionBombPower, this, handler));
+        }
+    }
+    //setter i getter
+    public void setActualNumberOfBombs(int actualNumberOfBombs) {
+        this.actualNumberOfBombs = actualNumberOfBombs;
+    }
+    public int getActualNumberOfBombs(){
+        return this.actualNumberOfBombs;
+    }
+
 }

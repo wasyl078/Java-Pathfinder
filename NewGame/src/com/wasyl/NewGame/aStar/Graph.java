@@ -189,7 +189,7 @@ public class Graph {
         }
     }
 
-    //metoda do stworzenia losoweggo labiruntu przy pomocy algorytmu Prima
+    /**metoda do stworzenia losoweggo labiruntu przy pomocy algorytmu Prima**/
     public ArrayList<BackgroundBlock> generatePrimsMaze() {
 
         ArrayList<Node> maze = new ArrayList<>();

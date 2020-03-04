@@ -22,15 +22,7 @@ public class FancyMazeMakingBlock extends AbstractBlock {
         this.handler = handler;
         this.player = player;
 
-        Collections.sort(mazeBlocks, new Comparator<BackgroundBlock>() {
-            @Override
-            public int compare(BackgroundBlock b1, BackgroundBlock b2) {
-
-                return Integer.compare(b1.getTime(), b2.getTime());
-            }
-        });
-
-
+        Collections.sort(mazeBlocks, Comparator.comparingInt(BackgroundBlock::getTime));
     }
 
     @Override

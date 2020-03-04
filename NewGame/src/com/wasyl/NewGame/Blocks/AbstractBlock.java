@@ -84,7 +84,7 @@ public abstract class AbstractBlock {
                 if (ab.getPositionX() == positionX && ab.getPositionY() == positionY)
                     if (ab != this)
                         return;
-            makeOldBLock();
+            makeOldBLock(positionX, positionY);
             this.positionX = positionX;
         }
     }
@@ -106,14 +106,14 @@ public abstract class AbstractBlock {
                     if (ab != this)
                         return;
 
-            makeOldBLock();
+            makeOldBLock(positionX, positionY);
             this.positionY = positionY;
 
         }
     }
 
     //metoda do tworzenia "smugi za poruszającymi się blokami"
-    private void makeOldBLock() {
+    public void makeOldBLock(int positionX, int positionY) {
         OldBlock newBlock = new OldBlock(positionX, positionY, red, green, blue, BlocksId.OldBlock);
         additionalObjects.add(newBlock);
     }
