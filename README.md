@@ -1,4 +1,4 @@
-# :heart: Java-Pathfinder ![Open Source Love](https://badges.frapsoft.com/os/mit/mit.svg?v=102) 
+# :heart: Java-Pathfinder ![Open Source Love](https://badges.frapsoft.com/os/mit/mit.svg?v=102) ![my badge](https://img.shields.io/badge/status-bera_version-red)
 This is Java verison of **Python-Pathfiner**, but this is the original project and my first implementation. I focused on implementing sophisticated graph's and tree's algorithms. This is real example how to use in "real live" those algorithms. This project is Bomberman-like - so you move in maze, place bombs and try not to be cought by enemy evil squere, who alweays know where you are (thanks to algorithms :heart:)
 
 ## Technologies and algorithms 
